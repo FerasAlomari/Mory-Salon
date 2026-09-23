@@ -303,6 +303,7 @@
     .row2{ gap:10px; }
   }
 </style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
 
@@ -546,6 +547,16 @@
 </a>
 
 <script>
+  /* ---- Supabase client (used to store booking submissions) ----
+     Anon/publishable key is safe to expose client-side by design;
+     access is controlled by Row Level Security policies on the table. */
+  var SUPABASE_URL = 'https://ssrspceuprhvyviglbuz.supabase.co';
+  var SUPABASE_KEY = 'sb_publishable_3UAFuYncho_ZrYNaAvNsbg_0u5FNfxJ';
+  var supabaseClient = (window.supabase && window.supabase.createClient)
+    ? window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY)
+    : null;
+  if(!supabaseClient){ console.warn('Supabase client library did not load — bookings will not be saved to the database.'); }
+
   /* ---- Riyal icon (official SAR symbol, inline SVG, inherits text color) ---- */
   function riyalIcon(){
     return '<svg class="riyal-ic" viewBox="0 0 1124.14 1256.39" xmlns="http://www.w3.org/2000/svg" fill="currentColor" aria-hidden="true">' +
@@ -823,12 +834,33 @@
 
     var totalLine = "";
     var savedRaw = null;
+    var savedTotal = null;
     try{ savedRaw = localStorage.getItem(STORAGE_KEY); }catch(err){}
     if(savedRaw){
       try{
         var savedData = JSON.parse(savedRaw);
-        if(savedData && savedData.total){ totalLine = "💰 *الإجمالي المتوقع:* " + savedData.total + "\n"; }
+        if(savedData && savedData.total){
+          totalLine = "💰 *الإجمالي المتوقع:* " + savedData.total + "\n";
+          savedTotal = savedData.total;
+        }
       }catch(err){}
+    }
+
+    /* ---- Save the booking to Supabase (fire-and-forget; never blocks the WhatsApp handoff) ---- */
+    if(supabaseClient){
+      supabaseClient.from('bookings').insert([{
+        branch: branch,
+        barber: barber,
+        customer_name: name,
+        phone: phone,
+        service: service,
+        booking_date: date,
+        booking_time: time,
+        notes: notes || null,
+        total_price: savedTotal
+      }]).then(function(res){
+        if(res && res.error){ console.warn('Supabase insert error:', res.error.message); }
+      });
     }
 
     var msg2 =
