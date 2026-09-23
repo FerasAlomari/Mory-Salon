@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>لوحة التحكم | MORY SALON</title>
+<link rel="icon" href="https://i.ibb.co/Z612zPGp/IMG-7814.jpg">
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@400;700&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+  :root{
+    --bg:            #DED0BC;
+    --bg-2:          #D4C4AA;
+    --panel:         #EFE8DD;
+    --panel-solid:   #EFE8DD;
+    --line:          rgba(74,53,37,.16);
+    --line-strong:   rgba(74,53,37,.34);
+    --gold:          #A97142;
+    --gold-2:        #8A5C34;
+    --gold-deep:     #6E4A2A;
+    --gold-soft:     rgba(169,113,66,.14);
+    --text:          #4A3525;
+    --text-dim:      #6B543F;
+    --text-faint:    #8C7358;
+    --on-gold:       #FBF4EA;
+    --danger:        #A3392A;
+    --ok:            #2E7D46;
+    --font-brand:    'Aref Ruqaa', serif;
+    --font-ui:       'IBM Plex Sans Arabic', sans-serif;
+    --radius-lg: 4px 26px 4px 26px;
+    --radius-md: 3px 18px 3px 18px;
+    --radius-sm: 8px;
+  }
+  *,*::before,*::after{ box-sizing:border-box; }
+  body{
+    margin:0; min-height:100vh; background:var(--bg); color:var(--text);
+    font-family:var(--font-ui); font-weight:400; line-height:1.6;
+  }
+  h1,h2,h3{ font-family:var(--font-ui); font-weight:700; margin:0; color:var(--text); }
+  p{ margin:0; }
+  a{ color:inherit; }
+  button, input, select{ font-family:var(--font-ui); }
+
+  #loginView{ min-height:100vh; display:flex; align-items:center; justify-content:center; padding:22px; }
+  .login-card{
+    width:100%; max-width:340px; background:var(--panel); border:1px solid var(--line);
+    border-radius:var(--radius-lg); padding:30px 24px; text-align:center;
+    box-shadow:0 18px 44px rgba(74,53,37,.18);
+  }
+  .login-card .badge{ width:52px; height:52px; margin:0 auto 12px; border-radius:50%; overflow:hidden; border:1px solid var(--line-strong); }
+  .login-card .badge img{ width:100%; height:100%; object-fit:cover; display:block; }
+  .login-card h1{ font-family:var(--font-brand); font-size:20px; color:var(--gold); }
+  .login-card .sub{ font-size:11.5px; letter-spacing:2px; color:var(--text-faint); margin:2px 0 22px; display:block; }
+  .login-field{ margin-bottom:14px; text-align:right; }
+  .login-field label{ display:block; font-size:12px; font-weight:700; color:var(--gold-2); margin-bottom:6px; }
+  .login-field input{
+    width:100%; box-sizing:border-box; padding:12px 13px; border-radius:var(--radius-sm);
+    border:1px solid var(--line); background:rgba(255,255,255,.4); color:var(--text); font-size:14px;
+  }
+  .login-field input:focus{ outline:none; border-color:var(--gold); box-shadow:0 0 0 3px rgba(169,113,66,.16); }
+  .login-error{ min-height:18px; font-size:12.5px; font-weight:700; color:var(--danger); margin:6px 0 12px; }
+  .btn{
+    display:inline-flex; align-items:center; justify-content:center; gap:8px; width:100%;
+    padding:13px 18px; border:none; border-radius:var(--radius-md); font-weight:700; font-size:14px; cursor:pointer;
+    background:linear-gradient(120deg, var(--gold-deep) 0%, var(--gold) 55%, #E8C99A 100%); color:var(--on-gold);
+  }
+  .btn:disabled{ opacity:.6; cursor:not-allowed; }
+
+  #dashboardView{ display:none; }
+  header.admin-top{
+    display:flex; align-items:center; justify-content:space-between; gap:10px;
+    padding:16px; max-width:640px; margin:0 auto; border-bottom:1px solid var(--line);
+  }
+  header.admin-top .brand{ display:flex; align-items:center; gap:10px; }
+  header.admin-top .badge{ width:36px; height:36px; border-radius:50%; overflow:hidden; border:1px solid var(--line-strong); }
+  header.admin-top .badge img{ width:100%; height:100%; object-fit:cover; display:block; }
+  header.admin-top .t{ font-family:var(--font-brand); font-size:16px; color:var(--gold); }
+  .btn-logout{
+    font-size:12px; font-weight:700; color:var(--text-dim); background:var(--panel);
+    border:1px solid var(--line); border-radius:999px; padding:7px 14px; cursor:pointer;
+  }
+
+  .filters{ padding:14px 16px 4px; max-width:640px; margin:0 auto; display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+  .filters .field-full{ grid-column:1 / -1; }
+  .filters label{ display:block; font-size:11px; font-weight:700; color:var(--gold-2); margin-bottom:5px; }
+  .filters select, .filters input{
+    width:100%; box-sizing:border-box; padding:10px 11px; border-radius:var(--radius-sm);
+    border:1px solid var(--line); background:var(--panel); color:var(--text); font-size:13px;
+  }
+
+  .list-meta{ padding:8px 16px; max-width:640px; margin:0 auto; font-size:12px; color:var(--text-faint); display:flex; align-items:center; gap:8px; }
+  .live-dot{ width:7px; height:7px; border-radius:50%; background:var(--ok); display:inline-block; box-shadow:0 0 0 3px rgba(46,125,70,.18); }
+
+  #bookingsList{ padding:6px 16px 40px; max-width:640px; margin:0 auto; display:flex; flex-direction:column; gap:10px; }
+  .empty-note{ text-align:center; font-size:13px; color:var(--text-faint); padding:30px 10px; }
+
+  .booking-card{
+    background:var(--panel); border:1px solid var(--line); border-radius:var(--radius-md);
+    padding:14px 16px; position:relative;
+  }
+  .booking-card.status-حضر{ border-inline-start:4px solid #2E7D46; }
+  .booking-card.status-مكتمل{ border-inline-start:4px solid var(--gold); }
+  .booking-card.status-ملغي{ border-inline-start:4px solid var(--danger); opacity:.6; }
+  .booking-card.status-قادم{ border-inline-start:4px solid var(--gold-2); }
+
+  .bc-top{ display:flex; align-items:flex-start; justify-content:space-between; gap:10px; margin-bottom:8px; }
+  .bc-time{ font-weight:800; font-size:16px; color:var(--gold-deep); font-family:var(--font-ui); }
+  .bc-branch{ font-size:11px; color:var(--text-faint); margin-top:2px; }
+  .bc-status{
+    font-size:10.5px; font-weight:800; padding:3px 10px; border-radius:999px; white-space:nowrap;
+    background:rgba(169,113,66,.14); color:var(--gold-deep);
+  }
+  .bc-status.status-حضر{ background:rgba(46,125,70,.14); color:var(--ok); }
+  .bc-status.status-مكتمل{ background:rgba(169,113,66,.22); color:var(--gold-deep); }
+  .bc-status.status-ملغي{ background:rgba(163,57,42,.14); color:var(--danger); }
+
+  .bc-name{ font-weight:700; font-size:14.5px; color:var(--text); }
+  .bc-row{ font-size:12.5px; color:var(--text-dim); margin-top:3px; }
+  .bc-row a{ color:var(--gold-deep); text-decoration:none; }
+  .bc-notes{ font-size:11.5px; color:var(--text-faint); margin-top:6px; font-style:italic; }
+
+  .bc-actions{ display:flex; gap:6px; margin-top:12px; flex-wrap:wrap; }
+  .bc-btn{
+    font-size:11.5px; font-weight:700; padding:8px 10px; border-radius:var(--radius-sm);
+    border:1px solid var(--line); background:transparent; color:var(--text-dim); cursor:pointer; flex:1; min-width:80px;
+  }
+  .bc-btn.attend{ border-color:rgba(46,125,70,.4); color:var(--ok); }
+  .bc-btn.complete{ border-color:var(--line-strong); color:var(--gold-deep); }
+  .bc-btn.cancel{ border-color:rgba(163,57,42,.35); color:var(--danger); }
+  .bc-btn:disabled{ opacity:.35; cursor:not-allowed; }
+</style>
+</head>
+<body>
+
+<div id="loginView">
+  <div class="login-card">
+    <div class="badge"><img src="https://i.ibb.co/Z612zPGp/IMG-7814.jpg" alt="شعار موري"></div>
+    <h1>لوحة تحكم موري</h1>
+    <span class="sub">MORY&nbsp;SALON&nbsp;ADMIN</span>
+    <div class="login-field">
+      <label for="loginEmail">البريد الإلكتروني</label>
+      <input type="email" id="loginEmail" autocomplete="username">
+    </div>
+    <div class="login-field">
+      <label for="loginPassword">كلمة المرور</label>
+      <input type="password" id="loginPassword" autocomplete="current-password">
+    </div>
+    <p class="login-error" id="loginError"></p>
+    <button type="button" class="btn" id="loginBtn">دخول</button>
+  </div>
+</div>
+
+<div id="dashboardView">
+  <header class="admin-top">
+    <div class="brand">
+      <div class="badge"><img src="https://i.ibb.co/Z612zPGp/IMG-7814.jpg" alt="شعار موري"></div>
+      <span class="t">لوحة تحكم موري</span>
+    </div>
+    <button type="button" class="btn-logout" id="logoutBtn">تسجيل الخروج</button>
+  </header>
+
+  <div class="filters">
+    <div>
+      <label for="filterBranch">الفرع</label>
+      <select id="filterBranch">
+        <option value="">كل الفروع</option>
+        <option value="فرع الشوقية">فرع الشوقية</option>
+        <option value="فرع ولي العهد 1">فرع ولي العهد 1</option>
+      </select>
+    </div>
+    <div>
+      <label for="filterDate">اليوم</label>
+      <input type="date" id="filterDate">
+    </div>
+    <div class="field-full">
+      <label for="filterBarber">الحلاق</label>
+      <select id="filterBarber">
+        <option value="">كل الحلاقين</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="list-meta"><span class="live-dot"></span><span id="listMeta">تحديث لحظي مفعّل</span></div>
+
+  <div id="bookingsList"></div>
+</div>
+
+<script>
+  var SUPABASE_URL = 'https://ssrspceuprhvyviglbuz.supabase.co';
+  var SUPABASE_KEY = 'sb_publishable_3UAFuYncho_ZrYNaAvNsbg_0u5FNfxJ';
+  var supabaseClient = (window.supabase && window.supabase.createClient)
+    ? window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY)
+    : null;
+
+  var BARBERS = {
+    "فرع الشوقية": ["محمود فرج", "ايشو محمود ابراهيم", "جدو علي اسامه"],
+    "فرع ولي العهد 1": ["احمد حسن", "محمد اسماعيل"]
+  };
+
+  var loginView = document.getElementById('loginView');
+  var dashboardView = document.getElementById('dashboardView');
+  var loginEmail = document.getElementById('loginEmail');
+  var loginPassword = document.getElementById('loginPassword');
+  var loginError = document.getElementById('loginError');
+  var loginBtn = document.getElementById('loginBtn');
+
+  function showDashboard(){
+    loginView.style.display = 'none';
+    dashboardView.style.display = 'block';
+    initDashboard();
+  }
+  function showLogin(msg){
+    dashboardView.style.display = 'none';
+    loginView.style.display = 'flex';
+    loginError.textContent = msg || '';
+  }
+
+  async function doLogin(){
+    loginError.textContent = '';
+    var email = loginEmail.value.trim();
+    var password = loginPassword.value;
+    if(!email || !password){ loginError.textContent = 'أدخل البريد وكلمة المرور'; return; }
+    loginBtn.disabled = true; loginBtn.textContent = 'جارٍ الدخول...';
+    var res = await supabaseClient.auth.signInWithPassword({ email: email, password: password });
+    loginBtn.disabled = false; loginBtn.textContent = 'دخول';
+    if(res.error){ loginError.textContent = 'بيانات الدخول غير صحيحة'; return; }
+    showDashboard();
+  }
+  loginBtn.addEventListener('click', doLogin);
+  loginPassword.addEventListener('keydown', function(e){ if(e.key === 'Enter') doLogin(); });
+
+  document.getElementById('logoutBtn').addEventListener('click', async function(){
+    if(realtimeChannel){ supabaseClient.removeChannel(realtimeChannel); realtimeChannel = null; }
+    await supabaseClient.auth.signOut();
+    showLogin();
+  });
+
+  var dashboardInited = false;
+  var realtimeChannel = null;
+
+  function todayStr(){
+    var d = new Date();
+    return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+  }
+
+  function initDashboard(){
+    if(dashboardInited) return;
+    dashboardInited = true;
+
+    var filterBranch = document.getElementById('filterBranch');
+    var filterDate = document.getElementById('filterDate');
+    var filterBarber = document.getElementById('filterBarber');
+    filterDate.value = todayStr();
+
+    function populateBarberFilter(){
+      var branch = filterBranch.value;
+      filterBarber.innerHTML = '<option value="">كل الحلاقين</option>';
+      var list = branch ? (BARBERS[branch] || []) : Object.keys(BARBERS).reduce(function(acc, b){ return acc.concat(BARBERS[b]); }, []);
+      list.forEach(function(name){
+        var opt = document.createElement('option');
+        opt.value = name; opt.textContent = name;
+        filterBarber.appendChild(opt);
+      });
+    }
+    populateBarberFilter();
+
+    filterBranch.addEventListener('change', function(){ populateBarberFilter(); loadBookings(); });
+    filterDate.addEventListener('change', loadBookings);
+    filterBarber.addEventListener('change', loadBookings);
+
+    var listEl = document.getElementById('bookingsList');
+
+    function formatArabicTime(hhmm){
+      if(!hhmm) return '';
+      var p = hhmm.split(':');
+      var h = parseInt(p[0], 10), m = p[1];
+      var period, h12;
+      if(h === 0){ h12 = 12; period = 'فجراً'; }
+      else if(h < 12){ h12 = h; period = 'صباحاً'; }
+      else if(h === 12){ h12 = 12; period = 'ظهراً'; }
+      else { h12 = h - 12; period = 'مساءً'; }
+      return h12 + ':' + m + ' ' + period;
+    }
+
+    function statusActions(row){
+      var actions = [];
+      if(row.status !== 'حضر' && row.status !== 'مكتمل' && row.status !== 'ملغي'){
+        actions.push({ label: 'تم الحضور', cls: 'attend', status: 'حضر' });
+      }
+      if(row.status !== 'مكتمل' && row.status !== 'ملغي'){
+        actions.push({ label: 'اكتمل', cls: 'complete', status: 'مكتمل' });
+      }
+      if(row.status !== 'ملغي' && row.status !== 'مكتمل'){
+        actions.push({ label: 'إلغاء', cls: 'cancel', status: 'ملغي' });
+      }
+      return actions;
+    }
+
+    async function updateStatus(id, status){
+      var res = await supabaseClient.from('bookings').update({ status: status }).eq('id', id);
+      if(res.error){ console.error('update status error:', res.error.message); alert('تعذّر تحديث الحالة'); }
+    }
+
+    function renderBookings(rows){
+      listEl.innerHTML = '';
+      if(!rows.length){
+        listEl.innerHTML = '<div class="empty-note">لا توجد حجوزات مطابقة للفلاتر الحالية</div>';
+        return;
+      }
+      rows.forEach(function(row){
+        var card = document.createElement('div');
+        card.className = 'booking-card status-' + row.status;
+        var actions = statusActions(row);
+        var actionsHtml = actions.map(function(a){
+          return '<button type="button" class="bc-btn ' + a.cls + '" data-id="' + row.id + '" data-status="' + a.status + '">' + a.label + '</button>';
+        }).join('');
+        card.innerHTML =
+          '<div class="bc-top">' +
+            '<div><div class="bc-time">' + formatArabicTime(row.booking_time) + '</div><div class="bc-branch">' + (row.branch || '') + '</div></div>' +
+            '<span class="bc-status status-' + row.status + '">' + row.status + '</span>' +
+          '</div>' +
+          '<div class="bc-name">' + (row.customer_name || '') + '</div>' +
+          '<div class="bc-row">📞 <a href="tel:' + row.phone + '">' + (row.phone || '') + '</a></div>' +
+          '<div class="bc-row">💈 ' + (row.service || '') + (row.duration_minutes ? ' — ' + row.duration_minutes + ' د' : '') + '</div>' +
+          '<div class="bc-row">💇‍♂️ ' + (row.barber || '') + '</div>' +
+          (row.notes ? '<div class="bc-notes">' + row.notes + '</div>' : '') +
+          (actionsHtml ? '<div class="bc-actions">' + actionsHtml + '</div>' : '');
+        listEl.appendChild(card);
+      });
+
+      listEl.querySelectorAll('.bc-btn').forEach(function(btn){
+        btn.addEventListener('click', function(){
+          btn.disabled = true;
+          updateStatus(btn.getAttribute('data-id'), btn.getAttribute('data-status'));
+        });
+      });
+    }
+
+    async function loadBookings(){
+      var query = supabaseClient.from('bookings').select('*').eq('booking_date', filterDate.value).order('booking_time', { ascending: true });
+      if(filterBranch.value){ query = query.eq('branch', filterBranch.value); }
+      if(filterBarber.value){ query = query.eq('barber', filterBarber.value); }
+      var res = await query;
+      if(res.error){ console.error('loadBookings error:', res.error.message); listEl.innerHTML = '<div class="empty-note">تعذّر تحميل الحجوزات</div>'; return; }
+      renderBookings(res.data || []);
+    }
+
+    loadBookings();
+
+    realtimeChannel = supabaseClient
+      .channel('bookings-admin-realtime')
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'bookings' }, function(){
+        loadBookings();
+      })
+      .subscribe();
+  }
+
+  (async function(){
+    if(!supabaseClient){ loginError.textContent = 'تعذّر تحميل مكتبة Supabase'; return; }
+    var res = await supabaseClient.auth.getSession();
+    if(res.data && res.data.session){ showDashboard(); } else { showLogin(); }
+  })();
+</script>
+
+</body>
+</html>

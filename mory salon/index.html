@@ -223,6 +223,30 @@
   .row2{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
   .row2 .field{ min-width:0; }
 
+  .slot-status{
+    font-size:12.5px; color:var(--text-faint); padding:12px 4px;
+    border:1px dashed var(--line-strong); border-radius:var(--radius-sm); text-align:center;
+  }
+  .slot-status.loading{ color:var(--gold-2); }
+  .slot-status.error{ color:#A3392A; border-color:rgba(220,80,60,.35); }
+  .slot-grid{
+    display:grid; grid-template-columns:repeat(4, 1fr); gap:8px;
+    max-height:230px; overflow-y:auto; padding:2px;
+  }
+  .slot-btn{
+    font-family:var(--font-ui); font-size:12.5px; font-weight:600; color:var(--text);
+    background:var(--panel); border:1px solid var(--line); border-radius:var(--radius-sm);
+    padding:9px 4px; cursor:pointer; text-align:center;
+  }
+  .slot-btn:hover:not(:disabled){ border-color:var(--gold); color:var(--gold-deep); }
+  .slot-btn.selected{
+    background:linear-gradient(120deg, var(--gold-deep), var(--gold) 60%, #E8C99A);
+    color:var(--on-gold); border-color:var(--gold); font-weight:700;
+  }
+  .slot-btn:disabled{
+    opacity:.35; cursor:not-allowed; text-decoration:line-through; background:transparent;
+  }
+
   .service-picked{
     border:1px solid var(--line-strong); border-radius:var(--radius-sm);
     background:rgba(169,113,66,.1); padding:13px 14px; font-size:13.5px; color:var(--text);
@@ -274,9 +298,34 @@
   footer{ background:var(--bg-2); border-top:1px solid var(--line); padding:40px 22px 24px; text-align:center; }
   footer .badge{
     width:58px; height:58px; margin:0 auto 14px; border:1px solid var(--line-strong); overflow:hidden;
-    border-radius:50%;
+    border-radius:50%; cursor:pointer;
   }
   footer .badge img{ width:100%; height:100%; object-fit:cover; border-radius:50%; display:block; }
+
+  /* ---- Hidden admin PIN modal ---- */
+  .pin-overlay{
+    display:none; position:fixed; inset:0; z-index:80;
+    background:rgba(20,14,8,.55); align-items:center; justify-content:center; padding:22px;
+  }
+  .pin-overlay.show{ display:flex; }
+  .pin-card{
+    position:relative; width:100%; max-width:320px; background:var(--panel-solid);
+    border:1px solid var(--line-strong); border-radius:var(--radius-lg);
+    padding:28px 22px 24px; text-align:center; box-shadow:0 20px 50px rgba(0,0,0,.35);
+  }
+  .pin-close{
+    position:absolute; top:12px; left:12px; width:28px; height:28px; border-radius:50%;
+    border:1px solid var(--line); background:transparent; color:var(--text-dim); cursor:pointer;
+  }
+  .pin-title{ font-family:var(--font-ui); font-weight:700; font-size:18px; color:var(--text); }
+  .pin-sub{ font-size:12.5px; color:var(--text-dim); margin-top:6px; margin-bottom:16px; }
+  .pin-input{
+    width:100%; box-sizing:border-box; text-align:center; letter-spacing:10px; font-size:22px;
+    padding:12px 14px; border-radius:var(--radius-sm); border:1px solid var(--line);
+    background:rgba(255,255,255,.03); color:var(--text); font-family:var(--font-ui);
+  }
+  .pin-input:focus{ outline:none; border-color:var(--gold); box-shadow:0 0 0 3px rgba(169,113,66,.16); }
+  .pin-error{ min-height:18px; font-size:12px; font-weight:700; color:#A3392A; margin:8px 0 14px; }
   footer h3{ font-family:var(--font-brand); font-weight:700; font-size:19px; color:var(--gold); }
   footer .tag{ font-family:var(--font-brand); font-size:10.5px; letter-spacing:3px; color:var(--text-faint); text-transform:uppercase; margin-top:3px; display:block; }
   .foot-social{ display:flex; justify-content:center; gap:12px; margin:22px 0 18px; }
@@ -468,17 +517,18 @@
       </select>
     </div>
 
-    <div class="row2">
-      <div class="field">
-        <label for="date">التاريخ</label>
-        <input type="date" id="date" required>
-      </div>
-      <div class="field">
-        <label for="time">الوقت</label>
-        <input type="time" id="time" required>
-      </div>
+    <div class="field">
+      <label for="date">التاريخ</label>
+      <input type="date" id="date" required>
     </div>
-    <p class="form-note" id="hoursNote" style="margin:-6px 0 16px;">أوقات العمل: يومياً من 2:00 ظهراً حتى 3:00 فجراً</p>
+
+    <div class="field" id="slotFieldWrap">
+      <label>الوقت</label>
+      <div class="slot-status" id="slotStatus">اختر الفرع والتاريخ والخدمة أولاً لعرض الأوقات المتاحة</div>
+      <div class="slot-grid" id="slotGrid" style="display:none;"></div>
+      <input type="hidden" id="time" required>
+    </div>
+    <p class="form-note" style="margin:-6px 0 16px;">أوقات العمل: يومياً من 2:00 ظهراً حتى 3:00 فجراً — كل خدمة لها مدة تقديرية تُحجز تلقائياً</p>
 
     <div class="field">
       <label for="notes">ملاحظات (اختياري)</label>
@@ -525,7 +575,7 @@
 
 <!-- ================= Footer ================= -->
 <footer>
-  <div class="badge"><img src="https://i.ibb.co/Z612zPGp/IMG-7814.jpg" alt="شعار موري"></div>
+  <div class="badge" id="adminPinTrigger"><img src="https://i.ibb.co/Z612zPGp/IMG-7814.jpg" alt="شعار موري"></div>
   <h3>صالون موري</h3>
   <span class="tag">MORY&nbsp;SALON</span>
 
@@ -540,6 +590,21 @@
 
   <div class="copy">© 2026 MORY SALON — جميع الحقوق محفوظة</div>
 </footer>
+
+<!-- ================= Hidden admin-access PIN modal =================
+     Tap the footer logo 5 times quickly to open this. This is a UI
+     convenience for staff only, NOT real security — the actual data
+     protection is Supabase Auth + RLS on admin.html/bookings. -->
+<div class="pin-overlay" id="pinOverlay">
+  <div class="pin-card">
+    <button type="button" class="pin-close" id="pinClose" aria-label="إغلاق">✕</button>
+    <div class="pin-title">دخول الإدارة</div>
+    <p class="pin-sub">أدخل رمز الدخول</p>
+    <input type="password" inputmode="numeric" maxlength="4" class="pin-input" id="pinInput" autocomplete="off">
+    <p class="pin-error" id="pinError"></p>
+    <button type="button" class="btn btn-menu" id="pinSubmit" style="width:100%;">دخول</button>
+  </div>
+</div>
 
 <!-- ================= Floating WhatsApp ================= -->
 <a href="https://wa.me/966569717446" target="_blank" class="float-wa" aria-label="راسلنا على واتساب">
@@ -682,7 +747,9 @@
   }
   branchSelect.addEventListener('change', function(){
     populateBarbers(this.value);
+    refreshSlots();
   });
+  barberSelect.addEventListener('change', function(){ refreshSlots(); });
 
   /* ---- Date field: block past dates ---- */
   var dateInput = document.getElementById('date');
@@ -694,13 +761,177 @@
     return yyyy + '-' + mm + '-' + dd;
   }
   dateInput.min = todayStr();
+  dateInput.addEventListener('change', function(){ refreshSlots(); });
 
   /* ---- Working hours: daily 14:00 -> 03:00 (crosses midnight) ---- */
-  var timeInput = document.getElementById('time');
+  var timeInput = document.getElementById('time'); // hidden field, holds the chosen slot's HH:MM
   function isWithinWorkingHours(t){
     // valid when NOT strictly between 03:00 and 14:00
     return !(t > "03:00" && t < "14:00");
   }
+
+  /* ============================================================
+     SLOT-GRID BOOKING ENGINE
+     Prevents double-booking by checking real-time capacity per
+     branch (or per barber) against existing rows in Supabase.
+     ============================================================ */
+  var BRANCH_CAPACITY = { "فرع الشوقية": 3, "فرع ولي العهد 1": 2 };
+  var ANY_BARBER_LABEL = 'أي حلاق متاح (المتوفر أولاً)';
+
+  var SERVICE_DURATIONS = {
+    "حلاقة الشعر": 20, "حلاقة الدقن": 15, "شعر ودقن": 30, "استشوار": 15,
+    "ماسك الوجه": 10, "ماسك الخشم": 5, "صنفرة بدون بخار": 10, "صنفرة مع بخار": 15,
+    "صابون مغربي": 15, "صبغ الشعر القصير": 30, "صبغ الشعر الطويل": 45, "صبغ الدقن": 15,
+    "بروتين + كيراتين شعر طويل": 150, "بروتين + كيراتين شعر قصير": 120,
+    "فرد الشعر": 60, "حمام زيت": 20, "تجهيز العرسان": 90,
+    "الباقة الكلاسيكية": 30, "الباقة الذهبية": 45, "الباقة الماسية VIP": 60,
+    "الكيرلي المؤقت": 90, "ظفاير الكلاسيك": 120, "ظفاير خصل": 150
+  };
+  var DEFAULT_DURATION = 30; // fallback for names not in the table (e.g. future offer titles)
+
+  var SLOT_STEP = 15;             // minutes
+  var SHIFT_START = 14 * 60;      // 14:00 -> 840
+  var SHIFT_END = (24 + 3) * 60;  // 03:00 next day, expressed continuously -> 1620
+  var SLOT_COUNT = (SHIFT_END - SHIFT_START) / SLOT_STEP;
+
+  function getSelectedServiceNames(){
+    if(selectedServiceValue){ return selectedServiceValue.split('، ').map(function(s){ return s.trim(); }).filter(Boolean); }
+    var sel = document.getElementById('service');
+    return (sel && sel.value) ? [sel.value] : [];
+  }
+
+  function getTotalDuration(){
+    var names = getSelectedServiceNames();
+    if(!names.length) return 0;
+    return names.reduce(function(sum, name){
+      var d = SERVICE_DURATIONS[name];
+      if(typeof d !== 'number'){ console.warn('No duration mapped for service "' + name + '", using default ' + DEFAULT_DURATION + ' min.'); d = DEFAULT_DURATION; }
+      return sum + d;
+    }, 0);
+  }
+
+  // "HH:MM" or "HH:MM:SS" wall-clock -> continuous minutes past the shift's 14:00 start
+  function toContinuousMinutes(hhmm){
+    var p = hhmm.split(':');
+    var mins = parseInt(p[0], 10) * 60 + parseInt(p[1], 10);
+    if(mins < SHIFT_START){ mins += 1440; }
+    return mins;
+  }
+
+  function continuousToWallClock(mins){
+    var wall = mins % 1440;
+    var h = Math.floor(wall / 60), m = wall % 60;
+    return (h < 10 ? '0' : '') + h + ':' + (m < 10 ? '0' : '') + m;
+  }
+
+  // Sweep existing bookings into 15-min occupancy buckets across the shift
+  function buildOccupancy(bookings, onlyBarber){
+    var occ = new Array(SLOT_COUNT).fill(0);
+    bookings.forEach(function(b){
+      if(onlyBarber && b.barber !== onlyBarber) return;
+      var start = toContinuousMinutes(b.booking_time);
+      var dur = b.duration_minutes || DEFAULT_DURATION;
+      var startIdx = Math.max(0, Math.floor((start - SHIFT_START) / SLOT_STEP));
+      var endIdx = Math.min(SLOT_COUNT, Math.ceil((start + dur - SHIFT_START) / SLOT_STEP));
+      for(var i = startIdx; i < endIdx; i++){ occ[i]++; }
+    });
+    return occ;
+  }
+
+  function isSlotAvailable(occ, slotStart, duration, capacity){
+    var startIdx = Math.floor((slotStart - SHIFT_START) / SLOT_STEP);
+    var endIdx = Math.ceil((slotStart + duration - SHIFT_START) / SLOT_STEP);
+    if(endIdx > SLOT_COUNT) return false;
+    for(var i = startIdx; i < endIdx; i++){ if(occ[i] + 1 > capacity) return false; }
+    return true;
+  }
+
+  async function fetchBookedSlots(dateStr, branchName){
+    if(!supabaseClient) return [];
+    try{
+      var res = await supabaseClient.rpc('get_booked_slots', { p_date: dateStr, p_branch: branchName });
+      if(res.error){ console.error('get_booked_slots error:', res.error.message); return null; }
+      return res.data || [];
+    }catch(err){ console.error('get_booked_slots exception:', err); return null; }
+  }
+
+  var slotGridEl = document.getElementById('slotGrid');
+  var slotStatusEl = document.getElementById('slotStatus');
+  var slotRequestId = 0;
+
+  function setSlotStatus(text, cls){
+    slotStatusEl.textContent = text;
+    slotStatusEl.className = 'slot-status' + (cls ? ' ' + cls : '');
+    slotStatusEl.style.display = '';
+    slotGridEl.style.display = 'none';
+  }
+
+  async function refreshSlots(){
+    var myRequestId = ++slotRequestId;
+    timeInput.value = '';
+    slotGridEl.querySelectorAll('.slot-btn.selected').forEach(function(b){ b.classList.remove('selected'); });
+
+    var branch = branchSelect.value;
+    var date = dateInput.value;
+    var duration = getTotalDuration();
+
+    if(!branch || !date || !duration){
+      setSlotStatus('اختر الفرع والتاريخ والخدمة أولاً لعرض الأوقات المتاحة');
+      return;
+    }
+    if(date < dateInput.min){
+      setSlotStatus('اختر تاريخاً من اليوم فما بعد', 'error');
+      return;
+    }
+
+    setSlotStatus('جارٍ التحقق من الأوقات المتاحة...', 'loading');
+
+    var bookings = await fetchBookedSlots(date, branch);
+    if(myRequestId !== slotRequestId) return; // a newer request superseded this one
+
+    if(bookings === null){
+      setSlotStatus('تعذّر التحقق من الأوقات المتاحة، حاول مرة أخرى', 'error');
+      return;
+    }
+
+    var barberVal = barberSelect.value;
+    var specificBarber = (barberVal && barberVal !== ANY_BARBER_LABEL) ? barberVal : null;
+    var capacity = specificBarber ? 1 : (BRANCH_CAPACITY[branch] || 1);
+    var occ = buildOccupancy(bookings, specificBarber);
+
+    var slots = [];
+    for(var m = SHIFT_START; m + duration <= SHIFT_END; m += SLOT_STEP){
+      slots.push({ start: m, available: isSlotAvailable(occ, m, duration, capacity) });
+    }
+
+    if(!slots.length){
+      setSlotStatus('مدة الخدمات المختارة أطول من الدوام المتاح، اختر خدمات أقل', 'error');
+      return;
+    }
+    if(!slots.some(function(s){ return s.available; })){
+      setSlotStatus('لا توجد أوقات متاحة في هذا اليوم لهذا الفرع/الحلاق، جرّب تاريخاً آخر', 'error');
+      return;
+    }
+
+    slotStatusEl.style.display = 'none';
+    slotGridEl.style.display = '';
+    slotGridEl.innerHTML = '';
+    slots.forEach(function(s){
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'slot-btn';
+      btn.textContent = formatArabicTime(continuousToWallClock(s.start));
+      btn.disabled = !s.available;
+      btn.addEventListener('click', function(){
+        slotGridEl.querySelectorAll('.slot-btn.selected').forEach(function(b){ b.classList.remove('selected'); });
+        btn.classList.add('selected');
+        timeInput.value = continuousToWallClock(s.start);
+      });
+      slotGridEl.appendChild(btn);
+    });
+  }
+
+  document.getElementById('service').addEventListener('change', refreshSlots);
 
   /* ---- Phone field: digits only, 10 chars max ---- */
   var phoneInput = document.getElementById('phone');
@@ -771,6 +1002,7 @@
     setTimeout(function(){
       document.getElementById('booking').scrollIntoView({ behavior:'smooth', block:'start' });
     }, 150);
+    refreshSlots();
   }
   applySavedSelection();
 
@@ -788,6 +1020,7 @@
           '<div class="names">' + name + '</div>' +
           '<a href="#services" class="edit-link">تغيير الاختيار</a>' +
         '</div>';
+      refreshSlots();
     },
     scrollToBooking: function(){
       var el = document.getElementById('booking');
@@ -816,10 +1049,14 @@
     if(!service){ showFormError("رجاءً اختر الخدمة"); if(serviceSelectEl) serviceSelectEl.focus(); return; }
     if(!date){ showFormError("رجاءً اختر تاريخ الحجز"); dateInput.focus(); return; }
     if(date < dateInput.min){ showFormError("عذراً، لا يمكن الحجز بتاريخ سابق. رجاءً اختر تاريخًا من اليوم فما بعد"); dateInput.focus(); return; }
-    if(!time){ showFormError("رجاءً اختر وقت الحجز"); timeInput.focus(); return; }
+    if(!time){
+      showFormError("رجاءً اختر وقتاً من الأوقات المتاحة");
+      document.getElementById('slotFieldWrap').scrollIntoView({ behavior:'smooth', block:'center' });
+      return;
+    }
     if(!isWithinWorkingHours(time)){
       showFormError("عذراً، أوقات العمل يومياً من 2:00 ظهراً حتى 3:00 فجراً. يرجى اختيار وقت آخر");
-      timeInput.focus();
+      document.getElementById('slotFieldWrap').scrollIntoView({ behavior:'smooth', block:'center' });
       return;
     }
 
@@ -866,6 +1103,8 @@
           service: service,
           booking_date: date,
           booking_time: time,
+          duration_minutes: getTotalDuration(),
+          status: 'قادم',
           notes: notes || null,
           total_price: savedTotal
         }]);
@@ -902,6 +1141,60 @@
     var url = "https://wa.me/966569717446?text=" + encodeURIComponent(msg2);
     if(waWindow){ waWindow.location.href = url; } else { window.open(url, "_blank"); }
   });
+
+  /* ============================================================
+     Hidden admin entry: tap the footer logo 5x quickly -> PIN modal.
+     NOTE: this is a convenience shortcut for staff, not real security.
+     Real protection = Supabase Auth login required inside admin.html.
+     ============================================================ */
+  (function(){
+    var trigger = document.getElementById('adminPinTrigger');
+    var overlay = document.getElementById('pinOverlay');
+    var pinInput = document.getElementById('pinInput');
+    var pinError = document.getElementById('pinError');
+    var pinSubmit = document.getElementById('pinSubmit');
+    var pinClose = document.getElementById('pinClose');
+    var ADMIN_PIN = '9800';
+    var clickCount = 0;
+    var clickTimer = null;
+
+    function openPinModal(){
+      overlay.classList.add('show');
+      pinError.textContent = '';
+      pinInput.value = '';
+      setTimeout(function(){ pinInput.focus(); }, 50);
+    }
+    function closePinModal(){
+      overlay.classList.remove('show');
+    }
+    function checkPin(){
+      if(pinInput.value === ADMIN_PIN){
+        window.location.href = 'admin.html';
+      } else {
+        pinError.textContent = 'رمز غير صحيح';
+        pinInput.value = '';
+        pinInput.focus();
+      }
+    }
+
+    trigger.addEventListener('click', function(){
+      clickCount++;
+      clearTimeout(clickTimer);
+      clickTimer = setTimeout(function(){ clickCount = 0; }, 1500);
+      if(clickCount >= 5){
+        clickCount = 0;
+        openPinModal();
+      }
+    });
+
+    pinClose.addEventListener('click', closePinModal);
+    overlay.addEventListener('click', function(e){ if(e.target === overlay) closePinModal(); });
+    pinSubmit.addEventListener('click', checkPin);
+    pinInput.addEventListener('keydown', function(e){ if(e.key === 'Enter') checkPin(); });
+    pinInput.addEventListener('input', function(){
+      this.value = this.value.replace(/[^0-9]/g, '');
+    });
+  })();
 </script>
 
 </body>
