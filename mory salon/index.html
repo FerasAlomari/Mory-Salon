@@ -795,8 +795,8 @@
     }
   };
 
-  /* ---- Booking form -> WhatsApp message ---- */
-  document.getElementById('bookingForm').addEventListener('submit', function(e){
+  /* ---- Booking form -> Supabase (awaited) -> WhatsApp message ---- */
+  document.getElementById('bookingForm').addEventListener('submit', async function(e){
     e.preventDefault();
     clearFormError();
 
@@ -846,21 +846,42 @@
       }catch(err){}
     }
 
-    /* ---- Save the booking to Supabase (fire-and-forget; never blocks the WhatsApp handoff) ---- */
+    var submitBtn = document.querySelector('#bookingForm button[type="submit"]');
+    var submitBtnHtml = submitBtn ? submitBtn.innerHTML : null;
+
+    // Open the tab synchronously (still inside the click gesture) so popup blockers
+    // don't block it once we come back from the awaited Supabase call below.
+    var waWindow = window.open('', '_blank');
+
     if(supabaseClient){
-      supabaseClient.from('bookings').insert([{
-        branch: branch,
-        barber: barber,
-        customer_name: name,
-        phone: phone,
-        service: service,
-        booking_date: date,
-        booking_time: time,
-        notes: notes || null,
-        total_price: savedTotal
-      }]).then(function(res){
-        if(res && res.error){ console.warn('Supabase insert error:', res.error.message); }
-      });
+      if(submitBtn){ submitBtn.disabled = true; submitBtn.innerHTML = 'جارٍ الحفظ...'; }
+
+      var insertError = null;
+      try{
+        var result = await supabaseClient.from('bookings').insert([{
+          branch: branch,
+          barber: barber,
+          customer_name: name,
+          phone: phone,
+          service: service,
+          booking_date: date,
+          booking_time: time,
+          notes: notes || null,
+          total_price: savedTotal
+        }]);
+        insertError = result && result.error ? result.error : null;
+      }catch(err){
+        insertError = err;
+      }
+
+      if(submitBtn){ submitBtn.disabled = false; submitBtn.innerHTML = submitBtnHtml; }
+
+      if(insertError){
+        console.error('Supabase insert error:', insertError.message || insertError);
+        if(waWindow){ waWindow.close(); }
+        showFormError("تعذّر حفظ الحجز في قاعدة البيانات، حاول مرة أخرى. (" + (insertError.message || "خطأ غير معروف") + ")");
+        return;
+      }
     }
 
     var msg2 =
@@ -879,7 +900,7 @@
     try{ localStorage.removeItem(STORAGE_KEY); }catch(err){}
 
     var url = "https://wa.me/966569717446?text=" + encodeURIComponent(msg2);
-    window.open(url, "_blank");
+    if(waWindow){ waWindow.location.href = url; } else { window.open(url, "_blank"); }
   });
 </script>
 
