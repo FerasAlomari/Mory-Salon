@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>قائمة الأسعار | MORY SALON</title>
+<link rel="icon" href="https://i.ibb.co/Z612zPGp/IMG-7814.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@400;700&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:            #DED0BC;
+    --bg-2:          #D4C4AA;
+    --panel:         #EFE8DD;
+    --panel-solid:   #EFE8DD;
+    --line:          rgba(74,53,37,.16);
+    --line-strong:   rgba(74,53,37,.34);
+    --gold:          #A97142;
+    --gold-2:        #8A5C34;
+    --gold-deep:     #6E4A2A;
+    --gold-soft:     rgba(169,113,66,.14);
+    --text:          #4A3525;
+    --text-dim:      #6B543F;
+    --text-faint:    #8C7358;
+    --on-gold:       #FBF4EA;
+    --whatsapp:      #2CB24C;
+    --font-brand:    'Aref Ruqaa', serif;
+    --font-ui:       'IBM Plex Sans Arabic', sans-serif;
+    --radius-lg: 4px 26px 4px 26px;
+    --radius-md: 3px 18px 3px 18px;
+    --radius-sm: 8px;
+  }
+  *,*::before,*::after{ box-sizing:border-box; }
+  html{ -webkit-text-size-adjust:100%; }
+  body{
+    margin:0; min-width:0;
+    background:
+      radial-gradient(90% 60% at 15% 0%, rgba(169,113,66,.09) 0%, transparent 55%),
+      var(--bg);
+    color:var(--text); font-family:var(--font-ui); font-weight:400; line-height:1.6;
+    padding-bottom:120px;
+  }
+  img{ max-width:100%; display:block; }
+  h1,h2,h3{ font-family:var(--font-ui); font-weight:700; margin:0; color:var(--text); }
+  p{ margin:0; }
+  a{ color:inherit; text-decoration:none; }
+
+  .riyal-ic{ height:1.1em; width:auto; display:inline-block; vertical-align:middle; margin-inline-end:4px; }
+
+  .wrap{ max-width:600px; margin:0 auto; padding:0 20px; }
+
+  header.top{ padding:20px 20px 8px; max-width:600px; margin:0 auto; display:flex; align-items:center; gap:12px; }
+  header.top .back{
+    width:38px; height:38px; border-radius:50%; border:1px solid var(--line);
+    display:flex; align-items:center; justify-content:center; color:var(--gold); flex:none;
+  }
+  header.top .back svg{ width:16px; height:16px; }
+  header.top .t{ flex:1; min-width:0; }
+  header.top h1{ font-size:20px; }
+  header.top .s{ font-family:var(--font-brand); font-size:11px; letter-spacing:2px; color:var(--text-faint); text-transform:uppercase; margin-top:2px; display:block; }
+
+  .cat{ padding:26px 20px 6px; max-width:600px; margin:0 auto; }
+  .cat-head{ display:flex; align-items:baseline; gap:10px; margin-bottom:14px; }
+  .cat-head h2{ font-size:18px; color:var(--gold); font-weight:700; }
+  .cat-head .line{ flex:1; height:1px; background:var(--line); }
+
+  .cat-notice{
+    font-size:12px; font-weight:600; color:var(--gold-2);
+    background:rgba(169,113,66,.1); border:1px solid var(--line);
+    border-radius:var(--radius-sm); padding:9px 12px; margin-bottom:14px; line-height:1.6;
+  }
+
+  .tile{
+    position:relative;
+    display:flex; align-items:center; gap:14px;
+    padding:16px 16px; margin-bottom:10px;
+    border:1px solid var(--line); border-radius:var(--radius-md);
+    background:var(--panel); cursor:pointer;
+  }
+  .tile.selected{
+    border-color:var(--gold); background:linear-gradient(90deg, var(--gold-soft), rgba(255,255,255,.02));
+    box-shadow:0 0 0 1px rgba(169,113,66,.3), 0 8px 20px rgba(169,113,66,.14);
+  }
+  .tile.tile-vip{
+    border-color:var(--gold);
+    box-shadow:0 0 0 1px rgba(169,113,66,.35), 0 10px 26px rgba(169,113,66,.2);
+  }
+  .tile.tile-vip::before{
+    content:"VIP"; position:absolute; top:-9px; inset-inline-end:14px;
+    background:linear-gradient(120deg, var(--gold-deep), var(--gold) 60%, #E8C99A);
+    color:var(--on-gold); font-size:10px; font-weight:800; letter-spacing:1.5px;
+    padding:3px 10px; border-radius:999px; box-shadow:0 4px 10px rgba(169,113,66,.35);
+  }
+  .tile .check{
+    flex:none; width:24px; height:24px; border-radius:50%; border:1.5px solid var(--line-strong);
+    display:flex; align-items:center; justify-content:center; color:transparent;
+  }
+  .tile.selected .check{ background:var(--gold); border-color:var(--gold); color:var(--on-gold); }
+  .tile .check svg{ width:13px; height:13px; }
+
+  .tile .name{ flex:1; min-width:0; font-size:14.5px; font-weight:600; color:var(--text); }
+  .tile .price{ flex:none; font-weight:700; font-size:15px; color:var(--gold); display:flex; align-items:center; }
+  .tile .price small{ font-size:11px; font-weight:500; color:var(--text-faint); margin-inline-start:3px; }
+
+  .tile-body{ flex:1; min-width:0; display:flex; flex-direction:column; gap:4px; }
+  .tile-body .name{ font-size:14.5px; font-weight:700; color:var(--text); }
+  .tile-body .item-desc{ font-size:11.5px; color:var(--text-dim); line-height:1.6; }
+
+  .tile-price-wrap{ flex:none; display:flex; flex-direction:column; align-items:flex-end; gap:3px; }
+  .tile-price-wrap .price{ font-weight:700; font-size:16px; color:var(--gold); display:flex; align-items:center; }
+  .tile-price-wrap .price-note{ font-size:10.5px; color:var(--text-faint); white-space:nowrap; }
+
+  .checkout-bar{
+    position:fixed; inset-inline:0; bottom:0; z-index:50;
+    background:linear-gradient(0deg, var(--bg) 55%, rgba(18,18,20,0));
+    padding:18px 20px 20px;
+  }
+  .checkout-inner{
+    max-width:560px; margin:0 auto;
+    background:var(--panel-solid); border:1px solid var(--line-strong); border-radius:var(--radius-lg);
+    padding:16px 18px; display:flex; align-items:center; gap:14px;
+    box-shadow:0 -10px 26px rgba(74,53,37,.22);
+  }
+  .checkout-info{ flex:1; min-width:0; }
+  .checkout-info .lbl{ font-size:11px; color:var(--text-faint); letter-spacing:1px; }
+  .checkout-info .amt{ font-family:var(--font-ui); font-weight:700; font-size:22px; color:var(--gold); display:flex; align-items:center; }
+  .checkout-info .cnt{ font-size:11.5px; color:var(--text-dim); margin-top:1px; }
+
+  .btn-checkout{
+    flex:none; display:inline-flex; align-items:center; gap:8px;
+    background:linear-gradient(120deg, var(--gold-deep), var(--gold) 55%, #E8C99A);
+    color:var(--on-gold); font-weight:700; font-size:14px;
+    padding:14px 20px; border-radius:var(--radius-md); border:none;
+    box-shadow:0 10px 24px rgba(197,160,89,.3);
+    opacity:.4; pointer-events:none; font-family:var(--font-ui);
+  }
+  .btn-checkout.active{ opacity:1; pointer-events:auto; }
+  .btn-checkout svg{ width:17px; height:17px; }
+
+  .empty-note{ text-align:center; font-size:12px; color:var(--text-faint); padding:20px; }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <a href="index.html" class="back" aria-label="رجوع">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 6l-6 6 6 6"/></svg>
+  </a>
+  <div class="t">
+    <h1>قائمة الأسعار</h1>
+    <span class="s">MORY&nbsp;SALON&nbsp;PRICE&nbsp;LIST</span>
+  </div>
+</header>
+
+<div id="catalog"></div>
+<p class="empty-note">اختر خدمة أو أكثر، ثم أكمل بيانات الحجز في الخطوة التالية</p>
+
+<div class="checkout-bar">
+  <div class="checkout-inner">
+    <div class="checkout-info">
+      <div class="lbl">الإجمالي</div>
+      <div class="amt"><span id="totalAmt">0</span><span id="totalIcon"></span></div>
+      <div class="cnt" id="countLbl">لم يتم اختيار خدمات</div>
+    </div>
+    <button type="button" class="btn-checkout" id="checkoutBtn">
+      <span id="checkoutIcon"></span>
+      <span id="checkoutLabel">اختر خدمة للمتابعة</span>
+    </button>
+  </div>
+</div>
+
+<script>
+  function riyalIcon(){
+    return '<svg class="riyal-ic" viewBox="0 0 1124.14 1256.39" xmlns="http://www.w3.org/2000/svg" fill="currentColor" aria-hidden="true">' +
+      '<path d="M699.62,1113.02h0c-20.06,44.48-33.32,92.75-38.4,143.37l424.51-90.24c20.06-44.47,33.31-92.75,38.4-143.37l-424.51,90.24Z"/>' +
+      '<path d="M1085.73,895.8c20.06-44.47,33.32-92.75,38.4-143.37l-330.68,70.33v-135.2l292.27-62.11c20.06-44.47,33.32-92.75,38.4-143.37l-330.68,70.27V66.13c-50.67,28.45-95.67,66.32-132.25,110.99v403.35l-132.25,28.11V0c-50.67,28.44-95.67,66.32-132.25,110.99v525.69l-295.91,62.88c-20.06,44.47-33.33,92.75-38.42,143.37l334.33-71.05v170.26l-358.3,76.14c-20.06,44.47-33.32,92.75-38.4,143.37l375.04-79.7c30.53-6.35,56.77-24.4,73.83-49.24l68.78-101.97v-.02c7.14-10.55,11.3-23.27,11.3-36.97v-149.98l132.25-28.11v270.4l424.53-90.28Z"/>' +
+      '</svg>';
+  }
+  function arrowIcon(){
+    return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" width="16" height="16"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>';
+  }
+
+  var DATA = [
+    { cat:"باقات موري الخاصة", items:[
+      { name:"الباقة الكلاسيكية", price:25, desc:"حلاقة شعر + صنفرة أو حلاقة دقن + صنفرة" },
+      { name:"الباقة الذهبية", price:40, desc:"حلاقة شعر + دقن + صنفرة + حمام زيت" },
+      { name:"الباقة الماسية VIP", price:60, desc:"حلاقة شعر + دقن + صنفرة بالبخار + منشفة وجه + حمام زيت + لصقة أنف", highlight:"vip" }
+    ]},
+    { cat:"خدمات الكيرلي والظفاير", notice:"متاحة حصرياً لدى الحلاق جدو — فرع الشوقية فقط", items:[
+      { name:"الكيرلي المؤقت", price:80, priceNote:"(على حسب طول الشعر)", curly:true },
+      { name:"ظفاير الكلاسيك", price:100, priceNote:"(على حسب طول الشعر)", curly:true },
+      { name:"ظفاير خصل", price:150, priceNote:"(على حسب طول الشعر)", curly:true }
+    ]},
+    { cat:"الشعر", items:[
+      { name:"حلاقة الشعر", price:20 },
+      { name:"حلاقة الدقن", price:20 },
+      { name:"شعر ودقن", price:35 },
+      { name:"استشوار", price:20 }
+    ]},
+    { cat:"العناية بالبشرة", items:[
+      { name:"ماسك الوجه", price:10 },
+      { name:"ماسك الخشم", price:5 },
+      { name:"صنفرة بدون بخار", price:10 },
+      { name:"صنفرة مع بخار", price:20 },
+      { name:"صابون مغربي", price:15 }
+    ]},
+    { cat:"الصبغات", items:[
+      { name:"صبغ الشعر القصير", price:30 },
+      { name:"صبغ الشعر الطويل", price:45 },
+      { name:"صبغ الدقن", price:20 }
+    ]},
+    { cat:"معالجات الشعر", items:[
+      { name:"بروتين + كيراتين شعر طويل", price:250 },
+      { name:"بروتين + كيراتين شعر قصير", price:200 },
+      { name:"فرد الشعر", price:50 },
+      { name:"حمام زيت", price:25 }
+    ]},
+    { cat:"باقات خاصة", items:[
+      { name:"تجهيز العرسان", price:200, priceMax:300 }
+    ]}
+  ];
+
+  var selected = {};
+
+  function iconCheck(){
+    return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M4 12l5 5 11-11"/></svg>';
+  }
+
+  function priceLabel(item){
+    if(item.priceMax){ return item.price + ' - ' + item.priceMax + riyalIcon(14); }
+    return item.price + riyalIcon(14);
+  }
+
+  function tileHtml(item, isSelected){
+    var cls = 'tile' + (isSelected ? ' selected' : '') + (item.highlight === 'vip' ? ' tile-vip' : '');
+    var descHtml = item.desc ? '<span class="item-desc">' + item.desc + '</span>' : '';
+    var noteHtml = item.priceNote ? '<span class="price-note">' + item.priceNote + '</span>' : '';
+    return '<div class="' + cls + '">' +
+      '<span class="check">' + iconCheck() + '</span>' +
+      '<span class="tile-body"><span class="name">' + item.name + '</span>' + descHtml + '</span>' +
+      '<span class="tile-price-wrap"><span class="price">' + priceLabel(item) + '</span>' + noteHtml + '</span>' +
+      '</div>';
+  }
+
+  function render(){
+    var root = document.getElementById('catalog');
+    root.innerHTML = "";
+    DATA.forEach(function(group){
+      var cat = document.createElement('div');
+      cat.className = 'cat';
+      var head = document.createElement('div');
+      head.className = 'cat-head';
+      head.innerHTML = '<h2>' + group.cat + '</h2><span class="line"></span>';
+      cat.appendChild(head);
+
+      if(group.notice){
+        var notice = document.createElement('div');
+        notice.className = 'cat-notice';
+        notice.textContent = '⚠️ ' + group.notice;
+        cat.appendChild(notice);
+      }
+
+      group.items.forEach(function(item){
+        var key = group.cat + '::' + item.name;
+        var wrap = document.createElement('div');
+        wrap.innerHTML = tileHtml(item, !!selected[key]);
+        var tile = wrap.firstElementChild;
+        tile.addEventListener('click', function(){
+          if(selected[key]){ delete selected[key]; }
+          else{ selected[key] = item; }
+          render();
+          updateBar();
+        });
+        cat.appendChild(tile);
+      });
+      root.appendChild(cat);
+    });
+  }
+
+  function itemPrice(item){
+    // for range-priced items, use the lower bound for the running total
+    return item.price;
+  }
+
+  function updateBar(){
+    var keys = Object.keys(selected);
+    var total = keys.reduce(function(sum,k){ return sum + itemPrice(selected[k]); }, 0);
+    document.getElementById('totalAmt').textContent = total;
+    document.getElementById('totalIcon').innerHTML = riyalIcon(19);
+    var countLbl = document.getElementById('countLbl');
+    countLbl.textContent = keys.length === 0 ? 'لم يتم اختيار خدمات' : keys.length + ' خدمة مختارة';
+    var btn = document.getElementById('checkoutBtn');
+    var label = document.getElementById('checkoutLabel');
+    var icon = document.getElementById('checkoutIcon');
+    if(keys.length > 0){
+      btn.classList.add('active');
+      label.textContent = 'متابعة إتمام الحجز';
+      icon.innerHTML = arrowIcon();
+    } else {
+      btn.classList.remove('active');
+      label.textContent = 'اختر خدمة للمتابعة';
+      icon.innerHTML = '';
+    }
+  }
+
+  document.getElementById('checkoutBtn').addEventListener('click', function(){
+    var keys = Object.keys(selected);
+    if(keys.length === 0) return;
+    var items = keys.map(function(k){
+      var it = selected[k];
+      return { name: it.name, price: itemPrice(it), curly: !!it.curly };
+    });
+    var total = items.reduce(function(sum, it){ return sum + it.price; }, 0);
+    var hasCurly = items.some(function(it){ return it.curly; });
+
+    var payload = { items: items, total: total };
+    if(hasCurly){
+      payload.forceBranch = "فرع الشوقية";
+      payload.forceBarber = "جدو علي اسامه";
+    }
+
+    try{
+      localStorage.setItem('mory_booking_selection', JSON.stringify(payload));
+    }catch(e){}
+
+    window.location.href = 'index.html#booking';
+  });
+
+  render();
+  updateBar();
+</script>
+
+</body>
+</html>

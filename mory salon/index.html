@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>صالون موري | MORY SALON</title>
+<meta name="description" content="صالون موري للرجال — أناقة، حلاقة، وعناية راقية. فرعان لخدمتك، احجز موعدك الآن عبر واتساب">
+<link rel="icon" href="https://i.ibb.co/Z612zPGp/IMG-7814.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@400;700&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --bg:            #DED0BC;
+    --bg-2:          #D4C4AA;
+    --panel:         #EFE8DD;
+    --panel-solid:   #EFE8DD;
+    --line:          rgba(74,53,37,.16);
+    --line-strong:   rgba(74,53,37,.34);
+
+    --gold:          #A97142;
+    --gold-2:        #8A5C34;
+    --gold-deep:     #6E4A2A;
+    --gold-soft:     rgba(169,113,66,.14);
+
+    --text:          #4A3525;
+    --text-dim:      #6B543F;
+    --text-faint:    #8C7358;
+    --on-gold:       #FBF4EA;
+
+    --whatsapp:      #2CB24C;
+
+    --font-brand:    'Aref Ruqaa', serif;
+    --font-ui:       'IBM Plex Sans Arabic', sans-serif;
+
+    --radius-lg: 4px 26px 4px 26px;
+    --radius-md: 3px 18px 3px 18px;
+    --radius-sm: 8px;
+    --shadow-glow: 0 0 0 1px rgba(74,53,37,.08), 0 18px 44px rgba(74,53,37,.2);
+  }
+
+  *,*::before,*::after{ box-sizing:border-box; }
+  html{ scroll-behavior:smooth; -webkit-text-size-adjust:100%; }
+  body{
+    margin:0; min-width:0;
+    background:
+      radial-gradient(90% 60% at 15% 0%, rgba(169,113,66,.09) 0%, transparent 55%),
+      radial-gradient(70% 50% at 100% 20%, rgba(169,113,66,.06) 0%, transparent 60%),
+      var(--bg);
+    color:var(--text);
+    font-family:var(--font-ui);
+    font-weight:400;
+    line-height:1.7;
+    overflow-x:hidden;
+  }
+  img{ max-width:100%; display:block; }
+  h1,h2,h3,h4{ font-family:var(--font-ui); font-weight:700; margin:0; color:var(--text); }
+  p{ margin:0; }
+  a{ color:inherit; text-decoration:none; }
+  ul{ margin:0; padding:0; list-style:none; }
+
+  button,a,.btn,input[type="submit"],select,.tap{
+    touch-action:manipulation; -webkit-tap-highlight-color:transparent;
+    transition:transform .18s ease, opacity .18s ease, box-shadow .25s ease, border-color .25s ease, background .25s ease;
+    font-family:var(--font-ui);
+  }
+  button:active,a.btn:active,.btn:active{ transform:scale(.97); }
+
+  .wrap{ max-width:600px; margin:0 auto; padding:0 22px; }
+
+  /* Riyal icon */
+  .riyal-ic{ height:1.1em; width:auto; display:inline-block; vertical-align:middle; margin-inline-end:4px; }
+
+  /* ================= Utility bar ================= */
+  .utility{
+    display:flex; align-items:center; justify-content:center;
+    max-width:600px; margin:0 auto; padding:18px 22px 6px;
+  }
+  .brand-mark{ display:flex; align-items:center; gap:11px; }
+  .brand-mark .badge{
+    width:44px; height:44px; border:1px solid var(--line-strong); overflow:hidden;
+    background:var(--panel-solid); border-radius:50%;
+  }
+  .brand-mark .badge img{ width:100%; height:100%; object-fit:cover; border-radius:50%; display:block; }
+  .brand-mark .name{ font-family:var(--font-brand); font-weight:700; font-size:17px; letter-spacing:.5px; color:var(--gold); }
+  .brand-mark .sub{ display:block; font-family:var(--font-brand); font-size:9.5px; letter-spacing:3px; color:var(--text-faint); margin-top:1px; }
+
+  .contact-strip{
+    display:flex; gap:8px; max-width:600px; margin:2px auto 0; padding:0 22px 8px;
+  }
+  .contact-strip a{
+    flex:1; display:flex; align-items:center; justify-content:center; gap:6px;
+    padding:10px 6px; border-radius:12px; background:var(--panel); border:1px solid var(--line);
+    color:var(--text); font-size:12px; font-weight:600;
+    box-shadow:0 3px 10px rgba(74,53,37,.08);
+  }
+  .contact-strip a:hover{ border-color:var(--gold); box-shadow:0 5px 14px rgba(74,53,37,.14); color:var(--gold-deep); }
+  .contact-strip svg{ width:15px; height:15px; flex:none; color:var(--text); }
+  .contact-strip a:hover svg{ color:var(--gold-deep); }
+
+  /* ================= Hero ================= */
+  .hero{ padding:34px 22px 30px; max-width:600px; margin:0 auto; }
+  .hero .eyebrow{
+    display:block; font-size:12px; letter-spacing:5px; color:var(--gold-2); margin-bottom:14px; font-weight:600;
+  }
+  .hero h1{
+    font-size:40px; line-height:1.3; color:var(--text); font-weight:700;
+  }
+  .hero h1 em{ font-style:normal; color:var(--gold); }
+  .hero p{
+    color:var(--text-dim); font-size:14.5px; max-width:420px; margin:16px 0 26px; font-weight:400;
+  }
+
+  .hero-actions{ display:flex; flex-direction:column; gap:12px; }
+
+  .btn{
+    display:inline-flex; align-items:center; justify-content:center; gap:9px;
+    padding:15px 22px; font-weight:700; font-size:14.5px;
+    border:1px solid transparent; cursor:pointer; min-width:0; width:100%;
+  }
+  .btn-whatsapp{
+    background:var(--whatsapp); color:#08170C; border-radius:var(--radius-md);
+  }
+  .btn-whatsapp:hover{ filter:brightness(1.08); }
+
+  .btn-menu{
+    position:relative; overflow:hidden;
+    background:linear-gradient(120deg, var(--gold-deep) 0%, var(--gold) 45%, #E8C99A 68%, var(--gold-2) 100%);
+    color:var(--on-gold); border-radius:var(--radius-lg);
+    padding:17px 24px; font-size:15.5px; font-weight:700; letter-spacing:.2px;
+    box-shadow:0 14px 30px rgba(197,160,89,.28), inset 0 1px 0 rgba(255,255,255,.35);
+  }
+  .btn-menu:hover{ box-shadow:0 16px 36px rgba(197,160,89,.4), inset 0 1px 0 rgba(255,255,255,.4); }
+  .btn-menu .ic{ font-size:17px; }
+  .btn-menu .arrow{ margin-inline-start:auto; font-size:17px; transition:transform .2s ease; }
+  .btn-menu:hover .arrow{ transform:translateX(-4px); }
+  .btn-menu::after{
+    content:""; position:absolute; top:0; right:-60%; width:45%; height:100%;
+    background:linear-gradient(120deg, transparent, rgba(255,255,255,.55), transparent);
+    transform:skewX(-18deg); opacity:0;
+  }
+  .btn-menu:active::after{ opacity:1; animation:sweepGold .7s ease; }
+  @keyframes sweepGold{ from{ right:-60%; } to{ right:130%; } }
+
+  .btn-ghost{ background:transparent; color:var(--text); border:1px solid var(--line-strong); border-radius:var(--radius-md); }
+  .btn-ghost:hover{ border-color:var(--gold); color:var(--gold); }
+
+  /* ================= Section shell ================= */
+  section{ padding:44px 22px; max-width:600px; margin:0 auto; }
+  .section-head{ margin-bottom:26px; }
+  .section-head .eyebrow{
+    display:block; font-size:11px; letter-spacing:4px; text-transform:uppercase; color:var(--gold-2); margin-bottom:6px; font-weight:600;
+  }
+  .section-head h2{ font-size:25px; }
+
+  /* ================= Services — vertical swipe card stack ================= */
+  .stack-wrap{ display:flex; align-items:center; gap:12px; }
+  .stack{ position:relative; flex:1; height:190px; }
+  .service-card2{
+    position:absolute; inset:0; border:1px solid var(--line); border-radius:var(--radius-lg);
+    background:var(--panel); padding:22px 22px; display:flex; flex-direction:column; justify-content:center; gap:10px;
+    cursor:grab; touch-action:pan-y; user-select:none;
+  }
+  .service-card2.front{
+    z-index:3; transition:transform .38s cubic-bezier(.22,.9,.32,1), opacity .38s ease;
+  }
+  .service-card2.peek{
+    z-index:1; transform:translateY(10px) scale(.96); opacity:.15; filter:blur(8px); pointer-events:none;
+  }
+  .service-card2 .top-row{ display:flex; align-items:center; justify-content:space-between; gap:10px; }
+  .service-card2 .idx{ font-family:var(--font-brand); font-size:15px; color:var(--gold-deep); }
+  .service-card2 .price{ font-weight:700; font-size:20px; color:var(--gold); display:flex; align-items:center; }
+  .service-card2 h4{ font-size:19px; font-weight:700; color:var(--text); }
+  .service-card2 .cat-tag{ font-size:11px; color:var(--text-faint); letter-spacing:1px; }
+
+  .stack-nav{ display:flex; flex-direction:column; align-items:center; gap:10px; flex:none; }
+  .stack-btn{
+    width:38px; height:38px; border-radius:50%; border:1px solid var(--line);
+    background:var(--panel); color:var(--gold); display:flex; align-items:center; justify-content:center;
+  }
+  .stack-btn:hover{ border-color:var(--line-strong); }
+  .stack-btn svg{ width:16px; height:16px; }
+  .stack-counter{ font-size:11px; color:var(--text-faint); writing-mode:vertical-rl; letter-spacing:1px; }
+  .stack-hint{ text-align:center; font-size:11.5px; color:var(--text-faint); margin-top:12px; }
+
+  /* ================= Price CTA banner ================= */
+  .price-banner{
+    background:var(--panel); border:1px solid var(--line); border-radius:var(--radius-lg);
+    padding:26px 22px; text-align:center; margin-top:22px;
+  }
+  .price-banner .t{ font-family:var(--font-ui); font-weight:700; font-size:19px; color:var(--text); margin-bottom:6px; }
+  .price-banner .s{ font-size:12.5px; color:var(--text-dim); margin-bottom:18px; }
+
+  /* ================= Booking ================= */
+  .booking{ background:var(--bg); }
+  .form-card{
+    background:var(--panel); border:1px solid var(--line); border-radius:var(--radius-lg);
+    padding:28px 22px; box-shadow:var(--shadow-glow); position:relative;
+  }
+  .field{ margin-bottom:16px; min-width:0; }
+  .field label{ display:block; font-size:12.5px; font-weight:700; color:var(--gold-2); margin-bottom:8px; letter-spacing:.3px; }
+  .field input, .field select, .field textarea{
+    width:100%; min-width:0; box-sizing:border-box;
+    padding:13px 14px; border-radius:var(--radius-sm);
+    border:1px solid var(--line); background:rgba(255,255,255,.03);
+    font-family:var(--font-ui); font-size:14.5px; color:var(--text);
+    appearance:none; -webkit-appearance:none;
+  }
+  .field textarea{ resize:vertical; min-height:66px; }
+  .field input:focus,.field select:focus,.field textarea:focus{
+    outline:none; border-color:var(--gold); box-shadow:0 0 0 3px rgba(169,113,66,.16);
+  }
+  .field select{
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='9'><path d='M1 1l6 6 6-6' stroke='%23D4A373' stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>");
+    background-repeat:no-repeat; background-position:left 14px center; padding-left:34px;
+  }
+  input[type="date"]::-webkit-calendar-picker-indicator,
+  input[type="time"]::-webkit-calendar-picker-indicator{
+    filter: invert(24%) sepia(28%) saturate(1250%) hue-rotate(345deg) brightness(88%) contrast(90%);
+    cursor: pointer;
+  }
+  .row2{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+  .row2 .field{ min-width:0; }
+
+  .service-picked{
+    border:1px solid var(--line-strong); border-radius:var(--radius-sm);
+    background:rgba(169,113,66,.1); padding:13px 14px; font-size:13.5px; color:var(--text);
+  }
+  .service-picked .lbl{ font-size:11px; color:var(--text-faint); margin-bottom:5px; display:block; letter-spacing:.5px; }
+  .service-picked .names{ font-weight:600; line-height:1.7; }
+  .service-picked .total{ margin-top:8px; font-weight:700; color:var(--gold); display:flex; align-items:center; gap:2px; }
+  .service-picked .edit-link{ display:inline-block; margin-top:9px; font-size:12px; color:var(--gold-2); text-decoration:underline; }
+
+  .form-card .btn{ margin-top:4px; }
+  .form-note{ text-align:center; font-size:12px; color:var(--text-faint); margin-top:12px; }
+  .form-error{
+    display:none; text-align:center; font-size:13px; font-weight:700; color:#A3392A;
+    background:rgba(220,80,60,.1); border:1px solid rgba(220,80,60,.32);
+    border-radius:var(--radius-sm); padding:10px 14px; margin-top:12px;
+  }
+  .form-error.show{ display:block; }
+
+  /* ================= Branches ================= */
+  .branch-row{
+    display:flex; align-items:center; gap:16px;
+    padding:20px; border:1px solid var(--line); border-radius:var(--radius-md);
+    background:var(--panel); margin-bottom:14px;
+  }
+  .branch-row .num{
+    flex:none; width:46px; height:46px; border-radius:50%;
+    border:1px solid var(--line-strong); color:var(--gold);
+    display:flex; align-items:center; justify-content:center;
+    font-family:var(--font-brand); font-size:19px;
+  }
+  .branch-row .info{ flex:1; min-width:0; }
+  .branch-row h4{ font-weight:700; font-size:15px; color:var(--text); }
+  .branch-row p{ font-size:11.5px; color:var(--text-dim); margin-top:3px; }
+  .branch-row .go{
+    flex:none; width:38px; height:38px; border-radius:50%; border:1px solid var(--line-strong);
+    color:var(--gold); display:flex; align-items:center; justify-content:center;
+  }
+  .branch-row .go svg{ width:16px; height:16px; }
+
+  /* ================= Hours ================= */
+  .hours-card{
+    border:1px solid var(--line); border-radius:var(--radius-lg); background:var(--panel); overflow:hidden;
+  }
+  .hours-item{ display:flex; align-items:center; justify-content:space-between; gap:12px; padding:20px; }
+  .hours-item .d{ font-weight:700; font-size:14.5px; color:var(--text); }
+  .hours-item .t{ color:var(--gold); font-weight:700; font-size:14.5px; }
+
+  /* ================= Footer ================= */
+  footer{ background:var(--bg-2); border-top:1px solid var(--line); padding:40px 22px 24px; text-align:center; }
+  footer .badge{
+    width:58px; height:58px; margin:0 auto 14px; border:1px solid var(--line-strong); overflow:hidden;
+    border-radius:50%;
+  }
+  footer .badge img{ width:100%; height:100%; object-fit:cover; border-radius:50%; display:block; }
+  footer h3{ font-family:var(--font-brand); font-weight:700; font-size:19px; color:var(--gold); }
+  footer .tag{ font-family:var(--font-brand); font-size:10.5px; letter-spacing:3px; color:var(--text-faint); text-transform:uppercase; margin-top:3px; display:block; }
+  .foot-social{ display:flex; justify-content:center; gap:12px; margin:22px 0 18px; }
+  .foot-social a{
+    width:40px; height:40px; border-radius:50%; border:1px solid var(--line);
+    display:flex; align-items:center; justify-content:center; color:var(--text-dim);
+  }
+  .foot-social a:hover{ color:var(--gold); border-color:var(--line-strong); }
+  .foot-social svg{ width:17px; height:17px; }
+  footer .copy{ font-size:11px; color:var(--text-faint); margin-top:12px; }
+
+  /* ================= Floating WhatsApp ================= */
+  .float-wa{
+    position:fixed; inset-inline-end:18px; bottom:18px; z-index:40;
+    width:56px; height:56px; border-radius:50%;
+    background:var(--whatsapp); color:#08170C;
+    display:flex; align-items:center; justify-content:center;
+    box-shadow:0 10px 24px rgba(74,53,37,.28), 0 0 0 3px rgba(169,113,66,.16);
+  }
+  .float-wa svg{ width:27px; height:27px; }
+
+  @media (max-width:380px){
+    .hero h1{ font-size:33px; }
+    .row2{ gap:10px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ================= Utility bar ================= -->
+<div class="utility">
+  <div class="brand-mark">
+    <div class="badge"><img src="https://i.ibb.co/Z612zPGp/IMG-7814.jpg" alt="شعار موري"></div>
+    <div>
+      <div class="name">موري</div>
+      <span class="sub">MORY&nbsp;SALON</span>
+    </div>
+  </div>
+</div>
+
+<!-- ================= Hero ================= -->
+<div class="hero">
+  <span class="eyebrow">MEN&nbsp;·&nbsp;GROOMING&nbsp;·&nbsp;STYLE</span>
+  <h1>أفضل <em>حلاق</em> بالمملكة</h1>
+  <p>حلاقة، عناية بالبشرة، وتصفيف بمعايير راقية — بفرعين لخدمتك. احجز موعدك الآن بضغطة واحدة عبر واتساب.</p>
+  <div class="hero-actions">
+    <a href="prices.html" class="btn btn-menu">
+      <span class="ic">✂️</span>
+      قائمة الأسعار والخدمات
+      <span class="arrow">←</span>
+    </a>
+    <a href="#booking" class="btn btn-ghost" id="scrollToBooking">احجز موعدك الآن</a>
+  </div>
+</div>
+
+<!-- ================= Offers component mount =================
+     Injected at runtime from offers-component.html (fetch-based).
+     This div stays empty/hidden automatically when there are no
+     active offers — nothing here needs editing when offers change. -->
+<div id="offersMount"></div>
+<script>
+(function(){
+  var mount = document.getElementById('offersMount');
+  if(!mount) return;
+  fetch('offers-component.html')
+    .then(function(res){ if(!res.ok) throw new Error('offers component not found'); return res.text(); })
+    .then(function(html){
+      mount.innerHTML = html;
+      // <script> tags inserted via innerHTML don't auto-execute — re-create them so they run.
+      var scripts = mount.querySelectorAll('script');
+      scripts.forEach(function(oldScript){
+        var s = document.createElement('script');
+        if(oldScript.src){ s.src = oldScript.src; } else { s.textContent = oldScript.textContent; }
+        document.body.appendChild(s);
+        oldScript.remove();
+      });
+    })
+    .catch(function(err){
+      // Component file missing / offline preview — page stays clean, no error shown to the visitor.
+      console.warn('Offers component not loaded:', err.message);
+    });
+})();
+</script>
+
+<!-- ================= Contact strip ================= -->
+<div class="contact-strip">
+  <a href="https://www.instagram.com/mory.salon?stkn=ODY0dGltcnAwNmwz" target="_blank">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1"/></svg>
+    <span>انستقرام</span>
+  </a>
+  <a href="https://www.tiktok.com/@mory.salon?_r=1&_t=ZS-99XeNs4KieI" target="_blank">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.5 2c.4 2.2 1.9 3.9 4.1 4.2v3c-1.5 0-2.9-.45-4.1-1.25v6.75c0 3.5-2.85 6.3-6.35 6.3S3.8 17.75 3.8 14.25s2.85-6.3 6.35-6.3c.35 0 .7.03 1 .08v3.1a3.2 3.2 0 0 0-1-.15 3.2 3.2 0 1 0 3.2 3.2V2h3.15z"/></svg>
+    <span>تيك توك</span>
+  </a>
+  <a href="tel:+966569717446">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3.1-8.6A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.13.9.34 1.8.62 2.6a2 2 0 0 1-.45 2.1L8.1 9.5a16 16 0 0 0 6 6l1.1-1.2a2 2 0 0 1 2.1-.45c.85.28 1.72.5 2.6.62A2 2 0 0 1 22 16.9z"/></svg>
+    <span>اتصال</span>
+  </a>
+</div>
+
+<!-- ================= Services — vertical card stack ================= -->
+<section id="services">
+  <div class="section-head">
+    <span class="eyebrow">Services</span>
+    <h2>خدماتنا وأسعارنا</h2>
+  </div>
+
+  <div class="stack-wrap">
+    <div class="stack" id="serviceStack"></div>
+    <div class="stack-nav">
+      <button type="button" class="stack-btn" id="stackPrev" aria-label="السابق">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M6 15l6-6 6 6"/></svg>
+      </button>
+      <span class="stack-counter" id="stackCounter">1/18</span>
+      <button type="button" class="stack-btn" id="stackNext" aria-label="التالي">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M6 9l6 6 6-6"/></svg>
+      </button>
+    </div>
+  </div>
+  <p class="stack-hint">مرّر للأعلى أو استخدم الأسهم لتصفح كل الخدمات</p>
+
+  <div class="price-banner">
+    <div class="t">القائمة الكاملة للأسعار</div>
+    <div class="s">تصفّح جميع الخدمات، اختر ما يناسبك، واحسب الإجمالي مباشرة</div>
+    <a href="prices.html" class="btn btn-menu">
+      <span class="ic">📋</span>
+      عرض قائمة الأسعار
+      <span class="arrow">←</span>
+    </a>
+  </div>
+</section>
+
+<!-- ================= Booking ================= -->
+<section class="booking" id="booking">
+  <div class="section-head">
+    <span class="eyebrow">Book Now</span>
+    <h2>احجز موعدك</h2>
+  </div>
+
+  <form class="form-card" id="bookingForm" novalidate>
+    <div class="field">
+      <label for="branch">الفرع</label>
+      <select id="branch" required>
+        <option value="" disabled selected>اختر الفرع</option>
+        <option value="فرع الشوقية">فرع الشوقية</option>
+        <option value="فرع ولي العهد 1">فرع ولي العهد 1</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label for="barber">الحلاق المفضل</label>
+      <select id="barber" required disabled>
+        <option value="" selected>اختر الفرع أولاً</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label for="name">الاسم</label>
+      <input type="text" id="name" placeholder="اسمك الكريم" required>
+    </div>
+
+    <div class="field">
+      <label for="phone">رقم الجوال</label>
+      <input type="tel" id="phone" placeholder="05xxxxxxxx" inputmode="numeric" maxlength="10" minlength="10" pattern="0[0-9]{9}" title="أدخل رقم جوال مكوّن من 10 أرقام ويبدأ بصفر" required>
+    </div>
+
+    <div class="field" id="serviceFieldWrap">
+      <label for="service" id="serviceLabel">الخدمة</label>
+      <select id="service" required>
+        <option value="" disabled selected>اختر الخدمة</option>
+        <option>حلاقة الشعر</option>
+        <option>حلاقة الدقن</option>
+        <option>شعر ودقن</option>
+        <option>استشوار</option>
+        <option>ماسك الوجه</option>
+        <option>ماسك الخشم</option>
+        <option>صنفرة بدون بخار</option>
+        <option>صنفرة مع بخار</option>
+        <option>صبغ الشعر القصير</option>
+        <option>صبغ الشعر الطويل</option>
+        <option>صبغ الدقن</option>
+        <option>بروتين + كيراتين شعر طويل</option>
+        <option>بروتين + كيراتين شعر قصير</option>
+        <option>فرد الشعر</option>
+        <option>حمام زيت</option>
+        <option>صابون مغربي</option>
+        <option>تجهيز العرسان</option>
+      </select>
+    </div>
+
+    <div class="row2">
+      <div class="field">
+        <label for="date">التاريخ</label>
+        <input type="date" id="date" required>
+      </div>
+      <div class="field">
+        <label for="time">الوقت</label>
+        <input type="time" id="time" required>
+      </div>
+    </div>
+    <p class="form-note" id="hoursNote" style="margin:-6px 0 16px;">أوقات العمل: يومياً من 2:00 ظهراً حتى 3:00 فجراً</p>
+
+    <div class="field">
+      <label for="notes">ملاحظات (اختياري)</label>
+      <textarea id="notes" placeholder="أي تفاصيل إضافية تود ذكرها"></textarea>
+    </div>
+
+    <button type="submit" class="btn btn-whatsapp">
+      <svg viewBox="0 0 32 32" fill="currentColor" width="18" height="18"><path d="M16.02 3C9.4 3 4 8.4 4 15.02c0 2.35.64 4.55 1.76 6.45L4 29l7.72-1.72a11.9 11.9 0 0 0 4.3.8c6.62 0 12.02-5.4 12.02-12.06C28.04 8.4 22.64 3 16.02 3zm0 21.7c-1.9 0-3.68-.5-5.24-1.4l-.38-.22-4.58 1.02 1.02-4.46-.24-.4a9.6 9.6 0 0 1-1.5-5.22c0-5.32 4.34-9.66 9.9-9.66 5.3 0 9.62 4.34 9.62 9.66 0 5.36-4.32 9.68-9.6 9.68zm5.36-7.26c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.66.15-.2.3-.76.97-.93 1.16-.17.2-.34.22-.63.08-.3-.15-1.25-.46-2.38-1.47-.88-.78-1.47-1.75-1.65-2.05-.17-.3-.02-.46.13-.6.13-.14.3-.35.44-.53.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.66-1.6-.9-2.2-.24-.57-.48-.5-.66-.5-.17 0-.37-.02-.56-.02s-.52.08-.8.37c-.27.3-1.04 1.02-1.04 2.5s1.07 2.9 1.22 3.1c.15.2 2.1 3.22 5.1 4.5.7.3 1.26.5 1.7.63.7.22 1.35.19 1.86.12.57-.09 1.76-.72 2-1.4.24-.7.24-1.3.17-1.4-.07-.13-.27-.2-.57-.35z"/></svg>
+      إرسال الحجز عبر واتساب
+    </button>
+    <p class="form-error" id="formError"></p>
+    <p class="form-note">سيتم تحويلك إلى واتساب لتأكيد الحجز مع فريق موري</p>
+  </form>
+</section>
+
+<!-- ================= Branches ================= -->
+<section id="branches">
+  <div class="section-head">
+    <span class="eyebrow">Our Branches</span>
+    <h2>فروعنا</h2>
+  </div>
+  <a class="branch-row" href="https://maps.app.goo.gl/BnjYAaJdTYpuBJUg6?g_st=ic" target="_blank">
+    <span class="num">1</span>
+    <span class="info"><h4>فرع الشوقية</h4><p>اضغط لفتح الموقع على خرائط قوقل</p></span>
+    <span class="go"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s7-7.4 7-12.5A7 7 0 0 0 5 9.5C5 14.6 12 22 12 22z"/><circle cx="12" cy="9.5" r="2.5"/></svg></span>
+  </a>
+  <a class="branch-row" href="https://maps.app.goo.gl/u8JRukwTvi6EqJDa9?g_st=ic" target="_blank">
+    <span class="num">2</span>
+    <span class="info"><h4>فرع ولي العهد 1</h4><p>اضغط لفتح الموقع على خرائط قوقل</p></span>
+    <span class="go"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s7-7.4 7-12.5A7 7 0 0 0 5 9.5C5 14.6 12 22 12 22z"/><circle cx="12" cy="9.5" r="2.5"/></svg></span>
+  </a>
+</section>
+
+<!-- ================= Working hours ================= -->
+<section>
+  <div class="section-head">
+    <span class="eyebrow">Working Hours</span>
+    <h2>أوقات العمل</h2>
+  </div>
+  <div class="hours-card">
+    <div class="hours-item"><span class="d">يومياً</span><span class="t">2:00 ظهراً — 3:00 فجراً</span></div>
+  </div>
+</section>
+
+<!-- ================= Footer ================= -->
+<footer>
+  <div class="badge"><img src="https://i.ibb.co/Z612zPGp/IMG-7814.jpg" alt="شعار موري"></div>
+  <h3>صالون موري</h3>
+  <span class="tag">MORY&nbsp;SALON</span>
+
+  <div class="foot-social">
+    <a href="https://www.instagram.com/mory.salon?stkn=ODY0dGltcnAwNmwz" target="_blank" aria-label="انستقرام">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1"/></svg>
+    </a>
+    <a href="https://www.tiktok.com/@mory.salon?_r=1&_t=ZS-99XeNs4KieI" target="_blank" aria-label="تيك توك">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.5 2c.4 2.2 1.9 3.9 4.1 4.2v3c-1.5 0-2.9-.45-4.1-1.25v6.75c0 3.5-2.85 6.3-6.35 6.3S3.8 17.75 3.8 14.25s2.85-6.3 6.35-6.3c.35 0 .7.03 1 .08v3.1a3.2 3.2 0 0 0-1-.15 3.2 3.2 0 1 0 3.2 3.2V2h3.15z"/></svg>
+    </a>
+  </div>
+
+  <div class="copy">© 2026 MORY SALON — جميع الحقوق محفوظة</div>
+</footer>
+
+<!-- ================= Floating WhatsApp ================= -->
+<a href="https://wa.me/966569717446" target="_blank" class="float-wa" aria-label="راسلنا على واتساب">
+  <svg viewBox="0 0 32 32" fill="currentColor"><path d="M16.02 3C9.4 3 4 8.4 4 15.02c0 2.35.64 4.55 1.76 6.45L4 29l7.72-1.72a11.9 11.9 0 0 0 4.3.8c6.62 0 12.02-5.4 12.02-12.06C28.04 8.4 22.64 3 16.02 3zm0 21.7c-1.9 0-3.68-.5-5.24-1.4l-.38-.22-4.58 1.02 1.02-4.46-.24-.4a9.6 9.6 0 0 1-1.5-5.22c0-5.32 4.34-9.66 9.9-9.66 5.3 0 9.62 4.34 9.62 9.66 0 5.36-4.32 9.68-9.6 9.68zm5.36-7.26c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.66.15-.2.3-.76.97-.93 1.16-.17.2-.34.22-.63.08-.3-.15-1.25-.46-2.38-1.47-.88-.78-1.47-1.75-1.65-2.05-.17-.3-.02-.46.13-.6.13-.14.3-.35.44-.53.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.66-1.6-.9-2.2-.24-.57-.48-.5-.66-.5-.17 0-.37-.02-.56-.02s-.52.08-.8.37c-.27.3-1.04 1.02-1.04 2.5s1.07 2.9 1.22 3.1c.15.2 2.1 3.22 5.1 4.5.7.3 1.26.5 1.7.63.7.22 1.35.19 1.86.12.57-.09 1.76-.72 2-1.4.24-.7.24-1.3.17-1.4-.07-.13-.27-.2-.57-.35z"/></svg>
+</a>
+
+<script>
+  /* ---- Riyal icon (official SAR symbol, inline SVG, inherits text color) ---- */
+  function riyalIcon(){
+    return '<svg class="riyal-ic" viewBox="0 0 1124.14 1256.39" xmlns="http://www.w3.org/2000/svg" fill="currentColor" aria-hidden="true">' +
+      '<path d="M699.62,1113.02h0c-20.06,44.48-33.32,92.75-38.4,143.37l424.51-90.24c20.06-44.47,33.31-92.75,38.4-143.37l-424.51,90.24Z"/>' +
+      '<path d="M1085.73,895.8c20.06-44.47,33.32-92.75,38.4-143.37l-330.68,70.33v-135.2l292.27-62.11c20.06-44.47,33.32-92.75,38.4-143.37l-330.68,70.27V66.13c-50.67,28.45-95.67,66.32-132.25,110.99v403.35l-132.25,28.11V0c-50.67,28.44-95.67,66.32-132.25,110.99v525.69l-295.91,62.88c-20.06,44.47-33.33,92.75-38.42,143.37l334.33-71.05v170.26l-358.3,76.14c-20.06,44.47-33.32,92.75-38.4,143.37l375.04-79.7c30.53-6.35,56.77-24.4,73.83-49.24l68.78-101.97v-.02c7.14-10.55,11.3-23.27,11.3-36.97v-149.98l132.25-28.11v270.4l424.53-90.28Z"/>' +
+      '</svg>';
+  }
+
+  /* ---- Services data: official MORY price list ---- */
+  var SERVICES = [
+    { name:"حلاقة الشعر", cat:"الشعر", price:20 },
+    { name:"حلاقة الدقن", cat:"الشعر", price:20 },
+    { name:"شعر ودقن", cat:"الشعر", price:35 },
+    { name:"استشوار", cat:"الشعر", price:20 },
+    { name:"ماسك الوجه", cat:"العناية بالبشرة", price:10 },
+    { name:"ماسك الخشم", cat:"العناية بالبشرة", price:5 },
+    { name:"صنفرة بدون بخار", cat:"العناية بالبشرة", price:10 },
+    { name:"صنفرة مع بخار", cat:"العناية بالبشرة", price:20 },
+    { name:"صبغ الشعر القصير", cat:"الصبغات", price:30 },
+    { name:"صبغ الشعر الطويل", cat:"الصبغات", price:45 },
+    { name:"صبغ الدقن", cat:"الصبغات", price:20 },
+    { name:"بروتين + كيراتين شعر طويل", cat:"معالجات الشعر", price:250 },
+    { name:"بروتين + كيراتين شعر قصير", cat:"معالجات الشعر", price:200 },
+    { name:"فرد الشعر", cat:"معالجات الشعر", price:50 },
+    { name:"حمام زيت", cat:"معالجات الشعر", price:25 },
+    { name:"صابون مغربي", cat:"العناية بالبشرة", price:15 },
+    { name:"تجهيز العرسان", cat:"باقات خاصة", price:"200 - 300" }
+  ];
+
+  /* ---- Vertical swipe card stack ---- */
+  var stackEl = document.getElementById('serviceStack');
+  var counterEl = document.getElementById('stackCounter');
+  var idx = 0;
+
+  function priceHtml(p){
+    if(typeof p === 'string'){ return p + riyalIcon(15); }
+    return p + riyalIcon(15);
+  }
+
+  function cardHtml(item, cls){
+    return '<div class="service-card2 ' + cls + '">' +
+      '<div class="top-row"><span class="cat-tag">' + item.cat + '</span><span class="price">' + priceHtml(item.price) + '</span></div>' +
+      '<h4>' + item.name + '</h4>' +
+      '</div>';
+  }
+
+  function renderStack(animDir){
+    var next = SERVICES[(idx+1) % SERVICES.length];
+    stackEl.innerHTML = cardHtml(SERVICES[idx], 'front') + cardHtml(next, 'peek');
+    counterEl.textContent = (idx+1) + '/' + SERVICES.length;
+    var frontCard = stackEl.querySelector('.front');
+    if(animDir){
+      frontCard.style.transition = 'none';
+      frontCard.style.transform = animDir === 'up' ? 'translateY(26px) scale(.97)' : 'translateY(-26px) scale(.97)';
+      frontCard.style.opacity = '0';
+      requestAnimationFrame(function(){
+        requestAnimationFrame(function(){
+          frontCard.style.transition = '';
+          frontCard.style.transform = 'translateY(0) scale(1)';
+          frontCard.style.opacity = '1';
+        });
+      });
+    }
+    attachDrag(frontCard);
+  }
+
+  function goNext(){ idx = (idx + 1) % SERVICES.length; renderStack('up'); }
+  function goPrev(){ idx = (idx - 1 + SERVICES.length) % SERVICES.length; renderStack('down'); }
+
+  document.getElementById('stackNext').addEventListener('click', goNext);
+  document.getElementById('stackPrev').addEventListener('click', goPrev);
+
+  function attachDrag(card){
+    var startY = 0, dragging = false;
+    card.addEventListener('pointerdown', function(e){
+      startY = e.clientY; dragging = true; card.style.transition = 'none'; card.setPointerCapture(e.pointerId);
+    });
+    card.addEventListener('pointermove', function(e){
+      if(!dragging) return;
+      var dy = e.clientY - startY;
+      card.style.transform = 'translateY(' + (dy*0.35) + 'px) scale(' + (1 - Math.min(Math.abs(dy),120)/1600) + ')';
+    });
+    function endDrag(e){
+      if(!dragging) return;
+      dragging = false;
+      var dy = e.clientY - startY;
+      card.style.transition = '';
+      if(dy < -45){ goNext(); }
+      else if(dy > 45){ goPrev(); }
+      else{ card.style.transform = 'translateY(0) scale(1)'; }
+    }
+    card.addEventListener('pointerup', endDrag);
+    card.addEventListener('pointercancel', endDrag);
+  }
+
+  renderStack(null);
+
+  /* ---- Barber list, dynamic per branch ---- */
+  var BARBERS = {
+    "فرع الشوقية": ["أي حلاق متاح (المتوفر أولاً)", "محمود فرج", "ايشو محمود ابراهيم", "جدو علي اسامه"],
+    "فرع ولي العهد 1": ["أي حلاق متاح (المتوفر أولاً)", "احمد حسن", "محمد اسماعيل"]
+  };
+  var branchSelect = document.getElementById('branch');
+  var barberSelect = document.getElementById('barber');
+
+  function populateBarbers(branchName){
+    barberSelect.innerHTML = '';
+    var list = BARBERS[branchName];
+    if(!list){
+      barberSelect.disabled = true;
+      var opt = document.createElement('option');
+      opt.value = ''; opt.textContent = 'اختر الفرع أولاً'; opt.selected = true;
+      barberSelect.appendChild(opt);
+      return;
+    }
+    barberSelect.disabled = false;
+    list.forEach(function(name, i){
+      var opt = document.createElement('option');
+      opt.value = name; opt.textContent = name;
+      if(i === 0) opt.selected = true;
+      barberSelect.appendChild(opt);
+    });
+  }
+  branchSelect.addEventListener('change', function(){
+    populateBarbers(this.value);
+  });
+
+  /* ---- Date field: block past dates ---- */
+  var dateInput = document.getElementById('date');
+  function todayStr(){
+    var today = new Date();
+    var yyyy = today.getFullYear();
+    var mm = String(today.getMonth()+1).padStart(2,'0');
+    var dd = String(today.getDate()).padStart(2,'0');
+    return yyyy + '-' + mm + '-' + dd;
+  }
+  dateInput.min = todayStr();
+
+  /* ---- Working hours: daily 14:00 -> 03:00 (crosses midnight) ---- */
+  var timeInput = document.getElementById('time');
+  function isWithinWorkingHours(t){
+    // valid when NOT strictly between 03:00 and 14:00
+    return !(t > "03:00" && t < "14:00");
+  }
+
+  /* ---- Phone field: digits only, 10 chars max ---- */
+  var phoneInput = document.getElementById('phone');
+  phoneInput.addEventListener('input', function(){
+    this.value = this.value.replace(/[^0-9]/g,'').slice(0,10);
+  });
+
+  /* ---- Helper: convert 24h "HH:MM" to Arabic 12-hour format ---- */
+  function formatArabicTime(hhmm){
+    var parts = hhmm.split(':');
+    var h = parseInt(parts[0], 10);
+    var m = parts[1];
+    var period, h12;
+    if(h === 0){ h12 = 12; period = 'فجراً'; }
+    else if(h < 12){ h12 = h; period = 'صباحاً'; }
+    else if(h === 12){ h12 = 12; period = 'ظهراً'; }
+    else { h12 = h - 12; period = 'مساءً'; }
+    return h12 + ':' + m + ' ' + period;
+  }
+
+  /* ---- Helper: show/hide the inline error box ---- */
+  var formErrorEl = document.getElementById('formError');
+  function showFormError(text){
+    formErrorEl.textContent = text;
+    formErrorEl.classList.add('show');
+  }
+  function clearFormError(){
+    formErrorEl.textContent = '';
+    formErrorEl.classList.remove('show');
+  }
+
+  /* ---- Handoff from prices.html: pre-fill selected services ---- */
+  var STORAGE_KEY = 'mory_booking_selection';
+  var serviceFieldWrap = document.getElementById('serviceFieldWrap');
+  var selectedServiceValue = null; // string used in the WhatsApp message when set
+
+  function applySavedSelection(){
+    var raw = null;
+    try{ raw = localStorage.getItem(STORAGE_KEY); }catch(e){}
+    if(!raw) return;
+    var data;
+    try{ data = JSON.parse(raw); }catch(e){ return; }
+    if(!data || !data.items || !data.items.length) return;
+
+    var names = data.items.map(function(it){ return it.name; }).join('، ');
+    selectedServiceValue = names;
+
+    var exclusiveNote = '';
+    if(data.forceBranch && data.forceBarber){
+      branchSelect.value = data.forceBranch;
+      populateBarbers(data.forceBranch);
+      barberSelect.value = data.forceBarber;
+      branchSelect.disabled = true;
+      barberSelect.disabled = true;
+      exclusiveNote = '<div class="lbl" style="margin-top:9px;color:#A3392A;">⚠️ هذه الخدمة متاحة حصرياً لدى الحلاق ' + data.forceBarber + ' — ' + data.forceBranch + '، لذلك تم تحديد الفرع والحلاق تلقائياً</div>';
+    }
+
+    serviceFieldWrap.innerHTML =
+      '<label>الخدمة</label>' +
+      '<div class="service-picked">' +
+        '<span class="lbl">تم اختيار الخدمات التالية من قائمة الأسعار</span>' +
+        '<div class="names">' + names + '</div>' +
+        '<div class="total">الإجمالي المتوقع: ' + data.total + riyalIcon(14) + '</div>' +
+        exclusiveNote +
+        '<a href="prices.html" class="edit-link">تعديل الاختيار</a>' +
+      '</div>';
+
+    setTimeout(function(){
+      document.getElementById('booking').scrollIntoView({ behavior:'smooth', block:'start' });
+    }, 150);
+  }
+  applySavedSelection();
+
+  /* ---- Public API for external components (e.g. offers-component.html) ----
+     selectService(name): fills the "الخدمة" field with a given label.
+     scrollToBooking(): smooth-scrolls to the booking form. */
+  window.MoryBooking = {
+    selectService: function(name){
+      if(!name) return;
+      selectedServiceValue = name;
+      serviceFieldWrap.innerHTML =
+        '<label>الخدمة</label>' +
+        '<div class="service-picked">' +
+          '<span class="lbl">تم اختيار العرض التالي</span>' +
+          '<div class="names">' + name + '</div>' +
+          '<a href="#services" class="edit-link">تغيير الاختيار</a>' +
+        '</div>';
+    },
+    scrollToBooking: function(){
+      var el = document.getElementById('booking');
+      if(el) el.scrollIntoView({ behavior:'smooth', block:'start' });
+    }
+  };
+
+  /* ---- Booking form -> WhatsApp message ---- */
+  document.getElementById('bookingForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    clearFormError();
+
+    var branch = document.getElementById('branch').value;
+    var barber = barberSelect.value || 'أي حلاق متاح (المتوفر أولاً)';
+    var name = document.getElementById('name').value.trim();
+    var phone = document.getElementById('phone').value.trim();
+    var serviceSelectEl = document.getElementById('service');
+    var service = selectedServiceValue || (serviceSelectEl ? serviceSelectEl.value : '');
+    var date = document.getElementById('date').value;
+    var time = document.getElementById('time').value;
+    var notes = document.getElementById('notes').value.trim();
+
+    if(!branch){ showFormError("رجاءً اختر الفرع"); document.getElementById('branch').focus(); return; }
+    if(!name){ showFormError("رجاءً أدخل اسمك"); document.getElementById('name').focus(); return; }
+    if(!/^0[0-9]{9}$/.test(phone)){ showFormError("رجاءً أدخل رقم جوال صحيح مكوّن من 10 أرقام ويبدأ بصفر (مثال: 0551336101)"); phoneInput.focus(); return; }
+    if(!service){ showFormError("رجاءً اختر الخدمة"); if(serviceSelectEl) serviceSelectEl.focus(); return; }
+    if(!date){ showFormError("رجاءً اختر تاريخ الحجز"); dateInput.focus(); return; }
+    if(date < dateInput.min){ showFormError("عذراً، لا يمكن الحجز بتاريخ سابق. رجاءً اختر تاريخًا من اليوم فما بعد"); dateInput.focus(); return; }
+    if(!time){ showFormError("رجاءً اختر وقت الحجز"); timeInput.focus(); return; }
+    if(!isWithinWorkingHours(time)){
+      showFormError("عذراً، أوقات العمل يومياً من 2:00 ظهراً حتى 3:00 فجراً. يرجى اختيار وقت آخر");
+      timeInput.focus();
+      return;
+    }
+
+    var time12 = formatArabicTime(time);
+    var days = ['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
+    var dateObj = new Date(date + 'T00:00:00');
+    var dayName = days[dateObj.getDay()];
+    var d2 = dateObj.getDate();
+    var m2 = dateObj.getMonth() + 1;
+    var y2 = dateObj.getFullYear();
+    var arabicDate = dayName + ' ' + d2 + '/' + m2 + '/' + y2;
+
+    var totalLine = "";
+    var savedRaw = null;
+    try{ savedRaw = localStorage.getItem(STORAGE_KEY); }catch(err){}
+    if(savedRaw){
+      try{
+        var savedData = JSON.parse(savedRaw);
+        if(savedData && savedData.total){ totalLine = "💰 *الإجمالي المتوقع:* " + savedData.total + "\n"; }
+      }catch(err){}
+    }
+
+    var msg2 =
+      "✂️ *طلب حجز جديد — صالون موري* ✨\n\n" +
+      "👤 *الاسم:* " + name + "\n" +
+      "📞 *الجوال:* " + phone + "\n" +
+      "📍 *الفرع:* " + branch + "\n" +
+      "💇‍♂️ *الحلاق المفضل:* " + barber + "\n" +
+      "💈 *الخدمة:* " + service + "\n" +
+      totalLine +
+      "📅 *التاريخ:* " + arabicDate + "\n" +
+      "🕐 *الوقت:* " + time12 + "\n" +
+      "📝 *ملاحظات:* " + (notes || "لا يوجد") + "\n\n" +
+      "✨ _تم الإرسال عبر رابط الحجز الذكي_";
+
+    try{ localStorage.removeItem(STORAGE_KEY); }catch(err){}
+
+    var url = "https://wa.me/966569717446?text=" + encodeURIComponent(msg2);
+    window.open(url, "_blank");
+  });
+</script>
+
+</body>
+</html>
