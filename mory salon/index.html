@@ -220,6 +220,12 @@
     filter: invert(24%) sepia(28%) saturate(1250%) hue-rotate(345deg) brightness(88%) contrast(90%);
     cursor: pointer;
   }
+  .date-field-wrap{ position:relative; }
+  .date-field-wrap input{ padding-inline-end:38px; }
+  .date-field-wrap .date-icon{
+    position:absolute; top:50%; inset-inline-end:13px; transform:translateY(-50%);
+    font-size:15px; line-height:1; pointer-events:none; opacity:.85;
+  }
   .row2{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
   .row2 .field{ min-width:0; }
 
@@ -519,7 +525,10 @@
 
     <div class="field">
       <label for="date">التاريخ</label>
-      <input type="date" id="date" required>
+      <div class="date-field-wrap">
+        <input type="date" id="date" required>
+        <span class="date-icon" aria-hidden="true">📅</span>
+      </div>
     </div>
 
     <div class="field" id="slotFieldWrap">
@@ -761,6 +770,7 @@
     return yyyy + '-' + mm + '-' + dd;
   }
   dateInput.min = todayStr();
+  dateInput.value = todayStr();
   dateInput.addEventListener('change', function(){ refreshSlots(); });
 
   /* ---- Working hours: daily 14:00 -> 03:00 (crosses midnight) ---- */
@@ -779,17 +789,17 @@
   var ANY_BARBER_LABEL = 'أي حلاق متاح (المتوفر أولاً)';
 
   var SERVICE_DURATIONS = {
-    "حلاقة الشعر": 20, "حلاقة الدقن": 15, "شعر ودقن": 30, "استشوار": 15,
-    "ماسك الوجه": 10, "ماسك الخشم": 5, "صنفرة بدون بخار": 10, "صنفرة مع بخار": 15,
-    "صابون مغربي": 15, "صبغ الشعر القصير": 30, "صبغ الشعر الطويل": 45, "صبغ الدقن": 15,
-    "بروتين + كيراتين شعر طويل": 150, "بروتين + كيراتين شعر قصير": 120,
-    "فرد الشعر": 60, "حمام زيت": 20, "تجهيز العرسان": 90,
-    "الباقة الكلاسيكية": 30, "الباقة الذهبية": 45, "الباقة الماسية VIP": 60,
-    "الكيرلي المؤقت": 90, "ظفاير الكلاسيك": 120, "ظفاير خصل": 150
+    "حلاقة الشعر": 20, "حلاقة الدقن": 20, "شعر ودقن": 20, "استشوار": 20,
+    "ماسك الوجه": 20, "ماسك الخشم": 20, "صنفرة بدون بخار": 20, "صنفرة مع بخار": 20,
+    "صابون مغربي": 20, "صبغ الشعر القصير": 20, "صبغ الشعر الطويل": 20, "صبغ الدقن": 20,
+    "بروتين + كيراتين شعر طويل": 30, "بروتين + كيراتين شعر قصير": 30,
+    "فرد الشعر": 20, "حمام زيت": 20, "تجهيز العرسان": 40,
+    "الباقة الكلاسيكية": 20, "الباقة الذهبية": 20, "الباقة الماسية VIP": 20,
+    "الكيرلي المؤقت": 30, "ظفاير الكلاسيك": 40, "ظفاير خصل": 40
   };
-  var DEFAULT_DURATION = 30; // fallback for names not in the table (e.g. future offer titles)
+  var DEFAULT_DURATION = 20; // fallback for names not in the table (e.g. future offer titles)
 
-  var SLOT_STEP = 15;             // minutes
+  var SLOT_STEP = 20;             // minutes
   var SHIFT_START = 14 * 60;      // 14:00 -> 840
   var SHIFT_END = (24 + 3) * 60;  // 03:00 next day, expressed continuously -> 1620
   var SLOT_COUNT = (SHIFT_END - SHIFT_START) / SLOT_STEP;
